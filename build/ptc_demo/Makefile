@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+ptc_demo/CMakeFiles/region_gs.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/region_gs.dir/rule
+.PHONY : ptc_demo/CMakeFiles/region_gs.dir/rule
+
+# Convenience name for target.
+region_gs: ptc_demo/CMakeFiles/region_gs.dir/rule
+
+.PHONY : region_gs
+
+# fast build rule for target.
+region_gs/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/build
+.PHONY : region_gs/fast
+
+# Convenience name for target.
 ptc_demo/CMakeFiles/bare_earth.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/bare_earth.dir/rule
 .PHONY : ptc_demo/CMakeFiles/bare_earth.dir/rule
@@ -751,6 +766,21 @@ topic_tools_generate_messages_cpp: ptc_demo/CMakeFiles/topic_tools_generate_mess
 topic_tools_generate_messages_cpp/fast:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/topic_tools_generate_messages_cpp.dir/build.make ptc_demo/CMakeFiles/topic_tools_generate_messages_cpp.dir/build
 .PHONY : topic_tools_generate_messages_cpp/fast
+
+# Convenience name for target.
+ptc_demo/CMakeFiles/euc_cluster.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/euc_cluster.dir/rule
+.PHONY : ptc_demo/CMakeFiles/euc_cluster.dir/rule
+
+# Convenience name for target.
+euc_cluster: ptc_demo/CMakeFiles/euc_cluster.dir/rule
+
+.PHONY : euc_cluster
+
+# fast build rule for target.
+euc_cluster/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/build
+.PHONY : euc_cluster/fast
 
 # Convenience name for target.
 ptc_demo/CMakeFiles/nodelet_topic_tools_gencfg.dir/rule:
@@ -1424,6 +1454,33 @@ src/bare_earth.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bare_earth.dir/build.make ptc_demo/CMakeFiles/bare_earth.dir/src/bare_earth.cpp.s
 .PHONY : src/bare_earth.cpp.s
 
+src/cluster_extraction.o: src/cluster_extraction.cpp.o
+
+.PHONY : src/cluster_extraction.o
+
+# target to build an object file
+src/cluster_extraction.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.o
+.PHONY : src/cluster_extraction.cpp.o
+
+src/cluster_extraction.i: src/cluster_extraction.cpp.i
+
+.PHONY : src/cluster_extraction.i
+
+# target to preprocess a source file
+src/cluster_extraction.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.i
+.PHONY : src/cluster_extraction.cpp.i
+
+src/cluster_extraction.s: src/cluster_extraction.cpp.s
+
+.PHONY : src/cluster_extraction.s
+
+# target to generate assembly for a file
+src/cluster_extraction.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.s
+.PHONY : src/cluster_extraction.cpp.s
+
 src/plane_model_seg.o: src/plane_model_seg.cpp.o
 
 .PHONY : src/plane_model_seg.o
@@ -1478,6 +1535,33 @@ src/ptc_seg.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/ptc_seg.dir/build.make ptc_demo/CMakeFiles/ptc_seg.dir/src/ptc_seg.cpp.s
 .PHONY : src/ptc_seg.cpp.s
 
+src/region_growing_segmentation.o: src/region_growing_segmentation.cpp.o
+
+.PHONY : src/region_growing_segmentation.o
+
+# target to build an object file
+src/region_growing_segmentation.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/src/region_growing_segmentation.cpp.o
+.PHONY : src/region_growing_segmentation.cpp.o
+
+src/region_growing_segmentation.i: src/region_growing_segmentation.cpp.i
+
+.PHONY : src/region_growing_segmentation.i
+
+# target to preprocess a source file
+src/region_growing_segmentation.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/src/region_growing_segmentation.cpp.i
+.PHONY : src/region_growing_segmentation.cpp.i
+
+src/region_growing_segmentation.s: src/region_growing_segmentation.cpp.s
+
+.PHONY : src/region_growing_segmentation.s
+
+# target to generate assembly for a file
+src/region_growing_segmentation.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/src/region_growing_segmentation.cpp.s
+.PHONY : src/region_growing_segmentation.cpp.s
+
 src/vis.o: src/vis.cpp.o
 
 .PHONY : src/vis.o
@@ -1515,6 +1599,7 @@ help:
 	@echo "... install/local"
 	@echo "... install"
 	@echo "... rebuild_cache"
+	@echo "... region_gs"
 	@echo "... bare_earth"
 	@echo "... vis"
 	@echo "... list_install_components"
@@ -1556,6 +1641,7 @@ help:
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... pcl_msgs_generate_messages_eus"
 	@echo "... topic_tools_generate_messages_cpp"
+	@echo "... euc_cluster"
 	@echo "... nodelet_topic_tools_gencfg"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
@@ -1603,12 +1689,18 @@ help:
 	@echo "... src/bare_earth.o"
 	@echo "... src/bare_earth.i"
 	@echo "... src/bare_earth.s"
+	@echo "... src/cluster_extraction.o"
+	@echo "... src/cluster_extraction.i"
+	@echo "... src/cluster_extraction.s"
 	@echo "... src/plane_model_seg.o"
 	@echo "... src/plane_model_seg.i"
 	@echo "... src/plane_model_seg.s"
 	@echo "... src/ptc_seg.o"
 	@echo "... src/ptc_seg.i"
 	@echo "... src/ptc_seg.s"
+	@echo "... src/region_growing_segmentation.o"
+	@echo "... src/region_growing_segmentation.i"
+	@echo "... src/region_growing_segmentation.s"
 	@echo "... src/vis.o"
 	@echo "... src/vis.i"
 	@echo "... src/vis.s"

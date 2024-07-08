@@ -1,5 +1,8 @@
 import open3d as o3d
 import numpy as np
+import sys
+
+USAGE = "Usage: python3 radar_vis.py 1.PCD 2.PCD \n"
 
 def load_and_visualize_pcds(original_pcd_path, segmented_pcd_path):
     # 读取原始点云
@@ -15,10 +18,10 @@ def load_and_visualize_pcds(original_pcd_path, segmented_pcd_path):
         return
 
 
-    # 设置原始点云的颜色（例如白色）
-    original_pcd.paint_uniform_color([1, 1, 1])
 
-    # 设置分割后的点云的颜色（例如绿色）
+    original_pcd.paint_uniform_color([0, 1, 0])
+
+
     segmented_pcd.paint_uniform_color([1, 0, 0])
 
     # 创建可视化对象并添加两个点云
@@ -46,6 +49,10 @@ def load_and_visualize_pcds(original_pcd_path, segmented_pcd_path):
     # vis.destroy_window()
 
 if __name__ == "__main__":
-    original_pcd_path = "/media/taole/Elements/daily_work/work_tg/ros_ws/data_for_seg/obstacle_2407050853_eline_v_10c.pcd"
-    segmented_pcd_path = "/media/taole/Elements/daily_work/work_tg/ros_ws/seg_result/obstacle_2407050853_eline_v_10c_seged.pcd"
+
+    if len(sys.argv) < 3:
+        print(USAGE)
+
+    original_pcd_path = sys.argv[1]
+    segmented_pcd_path = sys.argv[2]
     load_and_visualize_pcds(original_pcd_path, segmented_pcd_path)

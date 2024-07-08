@@ -39,8 +39,6 @@ std::string getCurrentTimeString()
 }
 
 
-
-
 void visualizePointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg, const std::string &window_name)
 {
     pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer(window_name));
@@ -63,6 +61,7 @@ void visualizePointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCl
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
+
 
 void visualizePointCloudSingle(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg, const std::string &window_name)
 {
@@ -103,6 +102,7 @@ void visualizePointCloudSingleMLS(pcl::PointCloud<pcl::PointNormal>::Ptr cloud_s
     }
 }
 
+
 void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filtered) {
 
 
@@ -128,7 +128,8 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
     pcl::SACSegmentation<pcl::PointXYZ> seg;
     // 可选的设置
     seg.setOptimizeCoefficients(true);
-        // set the type of segment model
+    // set the type of segment model
+    // default iterations: 1000 for PCL   seg.setMaxIterations (100);
     seg.setModelType(pcl::SACMODEL_PLANE);
     seg.setMethodType(pcl::SAC_RANSAC);
     seg.setDistanceThreshold(dis_thre);
@@ -181,7 +182,7 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
 }
 
 
-void MLS_Surface(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud<pcl::PointNormal>::Ptr &mls_points) {
+void MLS_Surface(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud<pcl::PointNormal>::Ptr &mls_points, int poly_order, float search_r) {
 
 
     if (cloud_seg->empty()) {
@@ -201,9 +202,9 @@ void MLS_Surface(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud
 
     // Set parameters
     mls.setInputCloud (cloud_seg);
-    mls.setPolynomialOrder (2);
+    mls.setPolynomialOrder (poly_order);
     mls.setSearchMethod (tree);
-    mls.setSearchRadius (1);
+    mls.setSearchRadius (search_r);
 
     // Reconstruct
     mls.process (*mls_points);  
@@ -213,10 +214,13 @@ void MLS_Surface(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "pcl_segmentation_example");
-    ros::NodeHandle nh;
+    ros::NodeHandle nh("~");
 
     std::string pcd_file_path;
     std::string output_folder;
+
+    bool vis;
+    nh.param<bool>("vis", vis, false);
 
     //获取参数，如果参数不存在则设置一个默认值
     if (!nh.getParam("/plane_model/pcd_file_path", pcd_file_path))
@@ -267,50 +271,71 @@ int main(int argc, char** argv)
         }
     }
 
-
     float dis_thre;
-    if (!nh.getParam("/plane_model/dis_thre", dis_thre))
-    {
-        output_folder = "0.1";
-        ROS_WARN("the dis_thre is not found, so use the default value");
-    }
-    
+    nh.param<float>("dis_thre", dis_thre, 1);
+    // ROS_INFO("the dis_thre is %f", dis_thre);
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filter_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
     VoxelDownSample(cloud, voxel_filter_cloud);
 
-    RANSAC(voxel_filter_cloud , cloud_seg, dis_thre);
 
-    // PMF_Segment(voxel_filter_cloud, cloud_seg); // Add a swtich
+    std::string seg_type;
+    nh.param<std::string>("seg_type", seg_type, "RANSAC");
 
-    // pcl::PointCloud<pcl::PointNormal>::Ptr mls_points(new pcl::PointCloud<pcl::PointNormal>);
-    // MLS_Surface(cloud_seg, mls_points);
-
+    if (seg_type == "RANSAC")
+    {
+        RANSAC(voxel_filter_cloud , cloud_seg, dis_thre);
+        ROS_INFO("The Segment Algrotihm is RANSAC and the number of Segmented is %ld", cloud_seg->size());
+    } else if (seg_type == "PMF") {
+        // 渐近形态滤波
+        PMF_Segment(voxel_filter_cloud, cloud_seg);
+        ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
+    }
 
     // save segmented result obstacle_2407051534_h3_hill_tree_v_20c_seged
     // std::string output_pcd_file = output_folder + "/segmented_plane_" + getCurrentTimeString() + ".pcd";
 
-    std::string output_pcd_file = output_folder + "/" + fileName + "_seged" + ".pcd";   
+    std::string output_pcd_file = output_folder + "/" + fileName + "_" +seg_type + "_seged" + ".pcd";   
     pcl::io::savePCDFileASCII(output_pcd_file, *cloud_seg);
     ROS_INFO("Saved segmented point cloud to %s", output_pcd_file.c_str());
 
+    bool MLS;
+    nh.param<bool>("MLS", MLS, false);
+
+    if (MLS) {
+        ROS_INFO("MLS OPEN");
+        // moving least square
+
+        int poly_order;
+        float search_r;
+        nh.param<int>("poly_order", poly_order, 2);
+        nh.param<float>("search_r", search_r, 1);
+        // ROS_INFO("%d, %f", poly_order, search_r);
+
+        pcl::PointCloud<pcl::PointNormal>::Ptr mls_points(new pcl::PointCloud<pcl::PointNormal>);
+        MLS_Surface(cloud_seg, mls_points, poly_order, search_r);
+        if (mls_points->empty()) {
+            PCL_ERROR("MLS points is empty after MLS processing.\n");
+            return (-1);
+        }
+        std::string out_mls = output_folder + "/" + fileName + "_" +seg_type+ "_mls.pcd";
+        pcl::io::savePCDFileASCII(out_mls, *mls_points);
+        ROS_INFO("Saved MLS point cloud to %s", out_mls.c_str());
+
+        if (vis) {
+            visualizePointCloudSingleMLS(mls_points, "Smooth Result");
+        }
 
 
-    // if (mls_points->empty()) {
-    //     PCL_ERROR("MLS points is empty after MLS processing.\n");
-    //     return (-1);
-    // }
-    // std::string out_mls = output_folder + "/" + "output_mls.pcd";
-    // pcl::io::savePCDFileASCII(out_mls, *mls_points);
-    // ROS_INFO("Saved MLS point cloud to %s", out_mls.c_str());
+    }
 
-    visualizePointCloudSingle(voxel_filter_cloud, "Voxel-Filter Result");
-    visualizePointCloud(cloud, cloud_seg, "Original and Segmented Point Cloud Viewer");
-    visualizePointCloudSingle(cloud_seg, "Segment Result");
-    // visualizePointCloudSingleMLS(mls_points, "Smooth Result");
-    
-
+    if (vis) {
+        visualizePointCloudSingle(voxel_filter_cloud, "Voxel-Filter Result");
+        visualizePointCloud(cloud, cloud_seg, "Original and Segmented Point Cloud Viewer");
+        visualizePointCloudSingle(cloud_seg, "Segment Result");
+    }
 
     return 0;
 }

@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named region_gs
+
+# Build rule for target.
+region_gs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 region_gs
+.PHONY : region_gs
+
+# fast build rule for target.
+region_gs/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/build
+.PHONY : region_gs/fast
+
+#=============================================================================
 # Target rules for targets named bare_earth
 
 # Build rule for target.
@@ -790,6 +803,19 @@ topic_tools_generate_messages_cpp: cmake_check_build_system
 topic_tools_generate_messages_cpp/fast:
 	$(MAKE) -f ptc_demo/CMakeFiles/topic_tools_generate_messages_cpp.dir/build.make ptc_demo/CMakeFiles/topic_tools_generate_messages_cpp.dir/build
 .PHONY : topic_tools_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named euc_cluster
+
+# Build rule for target.
+euc_cluster: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 euc_cluster
+.PHONY : euc_cluster
+
+# fast build rule for target.
+euc_cluster/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/build
+.PHONY : euc_cluster/fast
 
 #=============================================================================
 # Target rules for targets named nodelet_topic_tools_gencfg
@@ -1372,6 +1398,7 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... region_gs"
 	@echo "... bare_earth"
 	@echo "... vis"
 	@echo "... plane_model"
@@ -1411,6 +1438,7 @@ help:
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... pcl_msgs_generate_messages_eus"
 	@echo "... topic_tools_generate_messages_cpp"
+	@echo "... euc_cluster"
 	@echo "... nodelet_topic_tools_gencfg"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
