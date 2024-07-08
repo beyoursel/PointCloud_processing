@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src
+CMAKE_SOURCE_DIR = /media/taole/ssd1/letaotao/PointCloud_processing/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build
+CMAKE_BINARY_DIR = /media/taole/ssd1/letaotao/PointCloud_processing/build
 
 # Utility rule file for clean_test_results.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build
 include CMakeFiles/clean_test_results.dir/progress.make
 
 CMakeFiles/clean_test_results:
-	/usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/remove_test_results.py /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/test_results
+	/home/taole/anaconda3/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/remove_test_results.py /media/taole/ssd1/letaotao/PointCloud_processing/build/test_results
 
 clean_test_results: CMakeFiles/clean_test_results
 clean_test_results: CMakeFiles/clean_test_results.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/clean_test_results.dir/clean:
 .PHONY : CMakeFiles/clean_test_results.dir/clean
 
 CMakeFiles/clean_test_results.dir/depend:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles/clean_test_results.dir/DependInfo.cmake --color=$(COLOR)
+	cd /media/taole/ssd1/letaotao/PointCloud_processing/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/taole/ssd1/letaotao/PointCloud_processing/src /media/taole/ssd1/letaotao/PointCloud_processing/src /media/taole/ssd1/letaotao/PointCloud_processing/build /media/taole/ssd1/letaotao/PointCloud_processing/build /media/taole/ssd1/letaotao/PointCloud_processing/build/CMakeFiles/clean_test_results.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/clean_test_results.dir/depend
 
