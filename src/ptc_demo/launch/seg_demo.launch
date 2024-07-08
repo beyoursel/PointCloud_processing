@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="ptc_demo" type="plane_model" name="plane_model" output="screen">
+        <param name="pcd_file_path" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/data_for_seg/obstacle_2407050853_eline_v_10c.pcd" />
+        <param name="output_folder" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result" />
+        <param name="dis_thre" value="1" />
+        <!-- <param name="original_ptc" value="False" /> -->
+    </node>
+</launch>
