@@ -1,0 +1,2 @@
+ptc_demo
+-DCATKIN_DEVEL_PREFIX=/media/taole/ssd1/letaotao/PointCloud_processing/devel -DCMAKE_INSTALL_PREFIX=/media/taole/ssd1/letaotao/PointCloud_processing/install -G Unix Makefiles
