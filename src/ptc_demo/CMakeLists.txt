@@ -195,7 +195,6 @@ target_link_libraries(euc_cluster
   ${PCL_LIBRARIES}  
 )
 
-
 find_package(Boost REQUIRED COMPONENTS filesystem)
 include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(plane_model ${Boost_LIBRARIES})

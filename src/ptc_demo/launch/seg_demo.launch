@@ -1,15 +1,15 @@
 <launch>
 
-    <arg name="dis_thre_ransac" default="1" />
-    <arg name="seg_type_ptc" default="PMF"/>
+    <arg name="dis_thre_ransac" default="2" />
+    <arg name="seg_type_ptc" default="RANSAC"/>
     <arg name="MLS_sw" default="false"/>
     <arg name="poly_order_ptc" default="2"/>
     <arg name="search_r_ptc" default="10"/>
     <arg name="vis_ptc" default="false" />
 
     <node pkg="ptc_demo" type="plane_model" name="plane_model" output="screen">
-        <param name="pcd_file_path" value="/media/taole/ssd1/letaotao/PointCloud_processing/data_for_seg/obstacle_2407051534_h3_hill_tree_v_20c.pcd" />
-        <param name="output_folder" value="/media/taole/ssd1/letaotao/PointCloud_processing/seg_result" />
+        <param name="pcd_file_path" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/data_for_seg/radar_ptc_net_240515145458_hill_v_h7.pcd" />
+        <param name="output_folder" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result" />
         <!-- <param name="dis_thre" value="1" /> -->
         <param name="dis_thre" value="$(arg dis_thre_ransac)" />
         <param name="seg_type" value="$(arg seg_type_ptc)" />

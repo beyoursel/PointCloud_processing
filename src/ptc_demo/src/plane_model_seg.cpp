@@ -120,7 +120,7 @@ void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<
 }
 
 
-int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg, float dis_thre) {
+int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg_outliers, float dis_thre) {
 
     pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
@@ -152,12 +152,16 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
     extract.setIndices(inliers);
     extract.setNegative(false);
     extract.filter(*cloud_seg);
+
+    extract.setNegative(true);
+    extract.filter(*cloud_seg_outliers);
+
     return 0;
 
 }
 
 
-void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered) {
+void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers) {
 
 
     pcl::PointIndicesPtr ground(new pcl::PointIndices);
@@ -176,8 +180,10 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     extract.setIndices(ground);
     extract.filter(*cloud_filtered);
 
-    std::cerr << "Ground cloud after filtering: " << std::endl;
-    std::cerr << *cloud_filtered << std::endl;
+    extract.setNegative(true);
+    extract.filter(*cloud_outliers);
+    // std::cerr << "Ground cloud after filtering: " << std::endl;
+    // std::cerr << *cloud_filtered << std::endl;
 
 }
 
@@ -276,7 +282,11 @@ int main(int argc, char** argv)
     // ROS_INFO("the dis_thre is %f", dis_thre);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg_outliers(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filter_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+
+    
+    auto start = std::chrono::high_resolution_clock::now();
 
     VoxelDownSample(cloud, voxel_filter_cloud);
 
@@ -286,20 +296,56 @@ int main(int argc, char** argv)
 
     if (seg_type == "RANSAC")
     {
-        RANSAC(voxel_filter_cloud , cloud_seg, dis_thre);
+        RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
         ROS_INFO("The Segment Algrotihm is RANSAC and the number of Segmented is %ld", cloud_seg->size());
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
-        PMF_Segment(voxel_filter_cloud, cloud_seg);
+        PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers);
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
     }
 
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    std::cout << "Processing time: " << duration << " milliseconds" << std::endl;    
     // save segmented result obstacle_2407051534_h3_hill_tree_v_20c_seged
     // std::string output_pcd_file = output_folder + "/segmented_plane_" + getCurrentTimeString() + ".pcd";
 
-    std::string output_pcd_file = output_folder + "/" + fileName + "_" +seg_type + "_seged" + ".pcd";   
-    pcl::io::savePCDFileASCII(output_pcd_file, *cloud_seg);
-    ROS_INFO("Saved segmented point cloud to %s", output_pcd_file.c_str());
+    // save down-sampled pointcloud
+    std::string output_folder_downsample = output_folder + "/" + "downsample";
+    if (!boost::filesystem::exists(output_folder_downsample))
+    {
+        if (!boost::filesystem::create_directories(output_folder_downsample))
+        {
+            ROS_ERROR("Failed to create output folder outliers '%s'", output_folder_downsample.c_str());
+            return -1;
+        }
+    }
+    std::string output_downsample_file = output_folder_downsample + "/" + fileName + "_downsample" + ".pcd";  
+    pcl::io::savePCDFileASCII(output_downsample_file, *voxel_filter_cloud);
+    ROS_INFO("Saved downsample pointcloud to %s", output_downsample_file.c_str());
+
+
+    // save inliers
+    std::string output_inlier_file = output_folder + "/" + fileName + "_" +seg_type + "_inlier_seged" + ".pcd";   
+    pcl::io::savePCDFileASCII(output_inlier_file, *cloud_seg);
+    ROS_INFO("Saved segmented inliers to %s", output_inlier_file.c_str());
+
+    // saved outliers
+    std::string output_folder_outliers = output_folder + "/" + "outliers";
+    if (!boost::filesystem::exists(output_folder_outliers))
+    {
+        if (!boost::filesystem::create_directories(output_folder_outliers))
+        {
+            ROS_ERROR("Failed to create output folder outliers '%s'", output_folder_outliers.c_str());
+            return -1;
+        }
+    }
+    std::string output_outliers_file = output_folder_outliers + "/" + fileName + "_" +seg_type + "_outlier_seged" + ".pcd";  
+    pcl::io::savePCDFileASCII(output_outliers_file, *cloud_seg_outliers);
+    ROS_INFO("Saved segmented outliers to %s", output_outliers_file.c_str());
+
 
     bool MLS;
     nh.param<bool>("MLS", MLS, false);
@@ -328,13 +374,13 @@ int main(int argc, char** argv)
             visualizePointCloudSingleMLS(mls_points, "Smooth Result");
         }
 
-
     }
 
     if (vis) {
         visualizePointCloudSingle(voxel_filter_cloud, "Voxel-Filter Result");
         visualizePointCloud(cloud, cloud_seg, "Original and Segmented Point Cloud Viewer");
-        visualizePointCloudSingle(cloud_seg, "Segment Result");
+        visualizePointCloudSingle(cloud_seg, "Segment Inlier Result");
+        visualizePointCloudSingle(cloud_seg_outliers, "Segment Outlier Result");
     }
 
     return 0;

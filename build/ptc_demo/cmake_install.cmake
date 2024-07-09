@@ -1,8 +1,8 @@
-# Install script for directory: /media/taole/ssd1/letaotao/PointCloud_processing/src/ptc_demo
+# Install script for directory: /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/media/taole/ssd1/letaotao/PointCloud_processing/install")
+  set(CMAKE_INSTALL_PREFIX "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo/catkin_generated/installspace/ptc_demo.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/catkin_generated/installspace/ptc_demo.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ptc_demo/cmake" TYPE FILE FILES
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo/catkin_generated/installspace/ptc_demoConfig.cmake"
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo/catkin_generated/installspace/ptc_demoConfig-version.cmake"
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/catkin_generated/installspace/ptc_demoConfig.cmake"
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/catkin_generated/installspace/ptc_demoConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ptc_demo" TYPE FILE FILES "/media/taole/ssd1/letaotao/PointCloud_processing/src/ptc_demo/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ptc_demo" TYPE FILE FILES "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/package.xml")
 endif()
 

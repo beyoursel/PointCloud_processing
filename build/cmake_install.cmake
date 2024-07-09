@@ -1,8 +1,8 @@
-# Install script for directory: /media/taole/ssd1/letaotao/PointCloud_processing/src
+# Install script for directory: /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/media/taole/ssd1/letaotao/PointCloud_processing/install")
+  set(CMAKE_INSTALL_PREFIX "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -49,89 +49,89 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/_setup_util.py")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE PROGRAM FILES "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE PROGRAM FILES "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/env.sh")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE PROGRAM FILES "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE PROGRAM FILES "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/env.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/setup.bash;/media/taole/ssd1/letaotao/PointCloud_processing/install/local_setup.bash")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/setup.bash;/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE FILE FILES
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/setup.bash"
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/local_setup.bash"
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE FILE FILES
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/setup.bash"
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/local_setup.bash"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/setup.sh;/media/taole/ssd1/letaotao/PointCloud_processing/install/local_setup.sh")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/setup.sh;/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE FILE FILES
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/setup.sh"
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/local_setup.sh"
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE FILE FILES
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/setup.sh"
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/local_setup.sh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/setup.zsh;/media/taole/ssd1/letaotao/PointCloud_processing/install/local_setup.zsh")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/setup.zsh;/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE FILE FILES
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/setup.zsh"
-    "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/local_setup.zsh"
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE FILE FILES
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/setup.zsh"
+    "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/local_setup.zsh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/media/taole/ssd1/letaotao/PointCloud_processing/install/.rosinstall")
+   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/media/taole/ssd1/letaotao/PointCloud_processing/install" TYPE FILE FILES "/media/taole/ssd1/letaotao/PointCloud_processing/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install" TYPE FILE FILES "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/media/taole/ssd1/letaotao/PointCloud_processing/build/gtest/cmake_install.cmake")
-  include("/media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo/cmake_install.cmake")
+  include("/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/gtest/cmake_install.cmake")
+  include("/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/cmake_install.cmake")
 
 endif()
 
@@ -143,5 +143,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/taole/ssd1/letaotao/PointCloud_processing/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
