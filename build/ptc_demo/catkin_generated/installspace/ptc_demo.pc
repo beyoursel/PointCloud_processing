@@ -1,4 +1,4 @@
-prefix=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install
+prefix=/media/taole/ssd1/letaotao/PointCloud_processing/install
 
 Name: ptc_demo
 Description: Description of ptc_demo
