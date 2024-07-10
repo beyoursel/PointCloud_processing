@@ -161,14 +161,14 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
 }
 
 
-void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers) {
+void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size) {
 
 
     pcl::PointIndicesPtr ground(new pcl::PointIndices);
     // Create the filtering object
     pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
     pmf.setInputCloud(cloud);
-    pmf.setMaxWindowSize(10); // 最大窗口尺寸，对于较大地形可以色和之更大的最大窗口尺寸。一般最大窗口尺寸比初始窗口尺寸大一个数量级以上。
+    pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，对于较大地形可以色和之更大的最大窗口尺寸。一般最大窗口尺寸比初始窗口尺寸大一个数量级以上。
     pmf.setSlope(1.0f);
     pmf.setInitialDistance(0.5f);
     pmf.setMaxDistance(3.0f);
@@ -294,13 +294,16 @@ int main(int argc, char** argv)
     std::string seg_type;
     nh.param<std::string>("seg_type", seg_type, "RANSAC");
 
+
+    float max_window_size;
+    nh.param<float>("max_window_size", max_window_size, 20);
     if (seg_type == "RANSAC")
     {
         RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
         ROS_INFO("The Segment Algrotihm is RANSAC and the number of Segmented is %ld", cloud_seg->size());
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
-        PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers);
+        PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
     }
 

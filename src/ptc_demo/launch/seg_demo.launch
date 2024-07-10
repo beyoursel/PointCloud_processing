@@ -1,17 +1,19 @@
 <launch>
 
-    <arg name="dis_thre_ransac" default="2" />
-    <arg name="seg_type_ptc" default="RANSAC"/>
+    <arg name="dis_thre_ransac" default="1" />
+    <arg name="max_window_size_ptc" default="1" />
+    <arg name="seg_type_ptc" default="PMF"/>
     <arg name="MLS_sw" default="false"/>
     <arg name="poly_order_ptc" default="2"/>
     <arg name="search_r_ptc" default="10"/>
     <arg name="vis_ptc" default="false" />
 
     <node pkg="ptc_demo" type="plane_model" name="plane_model" output="screen">
-        <param name="pcd_file_path" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/data_for_seg/radar_ptc_net_240515145458_hill_v_h7.pcd" />
-        <param name="output_folder" value="/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result" />
+        <param name="pcd_file_path" value="/media/taole/ssd1/letaotao/PointCloud_processing/data_for_seg/radar_ptc_net_240515142901_hill_epole_v_h3.pcd" />
+        <param name="output_folder" value="/media/taole/ssd1/letaotao/PointCloud_processing/seg_result" />
         <!-- <param name="dis_thre" value="1" /> -->
         <param name="dis_thre" value="$(arg dis_thre_ransac)" />
+        <param name="max_window_size" value="$(arg max_window_size_ptc)" />        
         <param name="seg_type" value="$(arg seg_type_ptc)" />
         <param name="MLS" value="$(arg MLS_sw)" />
         <param name="poly_order" value="$(arg poly_order_ptc)" />
