@@ -39,6 +39,7 @@
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/install/local.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/install.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/rebuild_cache.dir
+/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/parallel_pmf.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/region_gs.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/bare_earth.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/vis.dir

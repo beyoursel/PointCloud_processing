@@ -1,7 +1,8 @@
 <launch>
 
     <arg name="dis_thre_ransac" default="1" />
-    <arg name="max_window_size_ptc" default="1" />
+    <arg name="max_window_size_ptc" default="2.5" />
+    <arg name="initial_dis_ptc" default="1.0" />
     <arg name="seg_type_ptc" default="PMF"/>
     <arg name="MLS_sw" default="false"/>
     <arg name="poly_order_ptc" default="2"/>
@@ -15,6 +16,7 @@
         <!-- <param name="dis_thre" value="1" /> -->
         <param name="dis_thre" value="$(arg dis_thre_ransac)" />
         <param name="max_window_size" value="$(arg max_window_size_ptc)" />        
+        <param name="initial_dis" value="$(arg initial_dis_ptc)" />   
         <param name="seg_type" value="$(arg seg_type_ptc)" />
         <param name="MLS" value="$(arg MLS_sw)" />
         <param name="poly_order" value="$(arg poly_order_ptc)" />

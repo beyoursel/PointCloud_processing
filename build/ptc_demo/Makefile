@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+ptc_demo/CMakeFiles/parallel_pmf.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/parallel_pmf.dir/rule
+.PHONY : ptc_demo/CMakeFiles/parallel_pmf.dir/rule
+
+# Convenience name for target.
+parallel_pmf: ptc_demo/CMakeFiles/parallel_pmf.dir/rule
+
+.PHONY : parallel_pmf
+
+# fast build rule for target.
+parallel_pmf/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/build
+.PHONY : parallel_pmf/fast
+
+# Convenience name for target.
 ptc_demo/CMakeFiles/region_gs.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/region_gs.dir/rule
 .PHONY : ptc_demo/CMakeFiles/region_gs.dir/rule
@@ -1481,6 +1496,33 @@ src/cluster_extraction.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.s
 .PHONY : src/cluster_extraction.cpp.s
 
+src/parallel_pmf.o: src/parallel_pmf.cpp.o
+
+.PHONY : src/parallel_pmf.o
+
+# target to build an object file
+src/parallel_pmf.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/src/parallel_pmf.cpp.o
+.PHONY : src/parallel_pmf.cpp.o
+
+src/parallel_pmf.i: src/parallel_pmf.cpp.i
+
+.PHONY : src/parallel_pmf.i
+
+# target to preprocess a source file
+src/parallel_pmf.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/src/parallel_pmf.cpp.i
+.PHONY : src/parallel_pmf.cpp.i
+
+src/parallel_pmf.s: src/parallel_pmf.cpp.s
+
+.PHONY : src/parallel_pmf.s
+
+# target to generate assembly for a file
+src/parallel_pmf.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/src/parallel_pmf.cpp.s
+.PHONY : src/parallel_pmf.cpp.s
+
 src/plane_model_seg.o: src/plane_model_seg.cpp.o
 
 .PHONY : src/plane_model_seg.o
@@ -1599,6 +1641,7 @@ help:
 	@echo "... install/local"
 	@echo "... install"
 	@echo "... rebuild_cache"
+	@echo "... parallel_pmf"
 	@echo "... region_gs"
 	@echo "... bare_earth"
 	@echo "... vis"
@@ -1692,6 +1735,9 @@ help:
 	@echo "... src/cluster_extraction.o"
 	@echo "... src/cluster_extraction.i"
 	@echo "... src/cluster_extraction.s"
+	@echo "... src/parallel_pmf.o"
+	@echo "... src/parallel_pmf.i"
+	@echo "... src/parallel_pmf.s"
 	@echo "... src/plane_model_seg.o"
 	@echo "... src/plane_model_seg.i"
 	@echo "... src/plane_model_seg.s"

@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named parallel_pmf
+
+# Build rule for target.
+parallel_pmf: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 parallel_pmf
+.PHONY : parallel_pmf
+
+# fast build rule for target.
+parallel_pmf/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/build
+.PHONY : parallel_pmf/fast
+
+#=============================================================================
 # Target rules for targets named region_gs
 
 # Build rule for target.
@@ -1398,6 +1411,7 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... parallel_pmf"
 	@echo "... region_gs"
 	@echo "... bare_earth"
 	@echo "... vis"

@@ -161,7 +161,7 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
 }
 
 
-void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size) {
+void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size, float initial_dis) {
 
 
     pcl::PointIndicesPtr ground(new pcl::PointIndices);
@@ -170,7 +170,7 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     pmf.setInputCloud(cloud);
     pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，对于较大地形使用更大的最大窗口尺寸。一般最大窗口尺寸比初始窗口尺寸大一个数量级以上。
     pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
-    pmf.setInitialDistance(0.5f); // 初始距离阈值用于定义在最小窗口尺寸下，地面点的最大允许高度变化。该参数帮助确定初始窗口中哪些点可以被认为是地面点。通常在0.2到1.0之间
+    pmf.setInitialDistance(initial_dis); // original is 0.5 初始距离阈值用于定义在最小窗口尺寸下，地面点的最大允许高度变化。该参数帮助确定初始窗口中哪些点可以被认为是地面点。通常在0.2到1.0之间
     pmf.setMaxDistance(3.0f); // 最大距离阈值用于定义在最大窗口尺寸下，地面点的最大允许高度变化。通常在1.0到5.0之间。
     pmf.extract(ground->indices);
 
@@ -328,6 +328,8 @@ int main(int argc, char** argv)
 
     float max_window_size;
     nh.param<float>("max_window_size", max_window_size, 20);
+    float initial_dis;
+    nh.param<float>("initial_dis", initial_dis, 0.5);    
     if (seg_type == "RANSAC")
     {
 
@@ -341,9 +343,9 @@ int main(int argc, char** argv)
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
         if (passf) {
-            PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
+            PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
         } else {
-            PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
+            PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
         }
 
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());

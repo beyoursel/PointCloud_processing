@@ -154,6 +154,8 @@ add_executable(vis src/vis.cpp)
 add_executable(bare_earth src/bare_earth.cpp)
 add_executable(region_gs src/region_growing_segmentation.cpp)
 add_executable(euc_cluster src/cluster_extraction.cpp)
+add_executable(parallel_pmf src/parallel_pmf.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -195,6 +197,11 @@ target_link_libraries(euc_cluster
   ${PCL_LIBRARIES}  
 )
 
+target_link_libraries(parallel_pmf
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
+
 find_package(Boost REQUIRED COMPONENTS filesystem)
 include_directories(${Boost_INCLUDE_DIRS})
 target_link_libraries(plane_model ${Boost_LIBRARIES})
@@ -208,10 +215,6 @@ target_link_libraries(plane_model ${Boost_LIBRARIES})
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
