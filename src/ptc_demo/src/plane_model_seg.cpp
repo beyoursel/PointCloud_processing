@@ -6,6 +6,7 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/passthrough.h>
 #include <pcl/search/kdtree.h>
 #include <pcl/surface/mls.h>
 #include <ros/ros.h>
@@ -105,7 +106,6 @@ void visualizePointCloudSingleMLS(pcl::PointCloud<pcl::PointNormal>::Ptr cloud_s
 
 void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filtered) {
 
-
     pcl::VoxelGrid<pcl::PointXYZ> vg;
     vg.setInputCloud(cloud);
     vg.setLeafSize(0.3f, 0.3f, 0.3f);
@@ -168,10 +168,10 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     // Create the filtering object
     pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
     pmf.setInputCloud(cloud);
-    pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，对于较大地形可以色和之更大的最大窗口尺寸。一般最大窗口尺寸比初始窗口尺寸大一个数量级以上。
-    pmf.setSlope(1.0f);
-    pmf.setInitialDistance(0.5f);
-    pmf.setMaxDistance(3.0f);
+    pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，对于较大地形使用更大的最大窗口尺寸。一般最大窗口尺寸比初始窗口尺寸大一个数量级以上。
+    pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
+    pmf.setInitialDistance(0.5f); // 初始距离阈值用于定义在最小窗口尺寸下，地面点的最大允许高度变化。该参数帮助确定初始窗口中哪些点可以被认为是地面点。通常在0.2到1.0之间
+    pmf.setMaxDistance(3.0f); // 最大距离阈值用于定义在最大窗口尺寸下，地面点的最大允许高度变化。通常在1.0到5.0之间。
     pmf.extract(ground->indices);
 
     // Create the filtering object
@@ -185,6 +185,18 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     // std::cerr << "Ground cloud after filtering: " << std::endl;
     // std::cerr << *cloud_filtered << std::endl;
 
+}
+
+
+void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered) {
+    // Create the filtering object
+    pcl::PassThrough<pcl::PointXYZ> pass;
+    pass.setInputCloud (input_cloud);
+    pass.setFilterFieldName ("z");
+    pass.setFilterLimits (-3, 100);
+    //pass.setNegative (true);
+    pass.filter (*cloud_filtered);
+    ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size());  
 }
 
 
@@ -217,6 +229,18 @@ void MLS_Surface(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud
     ROS_INFO("the number of smoothed ptc is %ld", mls_points->size());      
 }
 
+ void CreateFolder(std::string out_folder, std::string marker) {
+
+    if (!boost::filesystem::exists(out_folder))
+    {
+        if (!boost::filesystem::create_directories(out_folder))
+        {
+            ROS_ERROR("Failed to create %s '%s'", marker.c_str(), out_folder.c_str());
+        }
+    }
+ }
+
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "pcl_segmentation_example");
@@ -227,6 +251,9 @@ int main(int argc, char** argv)
 
     bool vis;
     nh.param<bool>("vis", vis, false);
+
+    bool passf;
+    nh.param<bool>("passf", passf, false);
 
     //获取参数，如果参数不存在则设置一个默认值
     if (!nh.getParam("/plane_model/pcd_file_path", pcd_file_path))
@@ -284,12 +311,16 @@ int main(int argc, char** argv)
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg_outliers(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filter_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-
+    pcl::PointCloud<pcl::PointXYZ>::Ptr pass_filter_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     
     auto start = std::chrono::high_resolution_clock::now();
 
     VoxelDownSample(cloud, voxel_filter_cloud);
 
+    // 直通滤波，filter outliers
+    if (passf) {
+        PassthroghFilter(voxel_filter_cloud, pass_filter_cloud);
+    }
 
     std::string seg_type;
     nh.param<std::string>("seg_type", seg_type, "RANSAC");
@@ -299,11 +330,22 @@ int main(int argc, char** argv)
     nh.param<float>("max_window_size", max_window_size, 20);
     if (seg_type == "RANSAC")
     {
-        RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
+
+        if (passf) {
+            RANSAC(pass_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);     
+        } else {
+            RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
+        }
         ROS_INFO("The Segment Algrotihm is RANSAC and the number of Segmented is %ld", cloud_seg->size());
+
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
-        PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
+        if (passf) {
+            PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
+        } else {
+            PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size);
+        }
+
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
     }
 
@@ -317,34 +359,32 @@ int main(int argc, char** argv)
 
     // save down-sampled pointcloud
     std::string output_folder_downsample = output_folder + "/" + "downsample";
-    if (!boost::filesystem::exists(output_folder_downsample))
-    {
-        if (!boost::filesystem::create_directories(output_folder_downsample))
-        {
-            ROS_ERROR("Failed to create output folder outliers '%s'", output_folder_downsample.c_str());
-            return -1;
-        }
-    }
+    CreateFolder(output_folder_downsample, "downsample");    
     std::string output_downsample_file = output_folder_downsample + "/" + fileName + "_downsample" + ".pcd";  
     pcl::io::savePCDFileASCII(output_downsample_file, *voxel_filter_cloud);
     ROS_INFO("Saved downsample pointcloud to %s", output_downsample_file.c_str());
 
 
+    // save passfilter pointcloud
+    if (passf) {
+        std::string output_folder_passfilter = output_folder + "/" + "passfilter";
+        CreateFolder(output_folder_passfilter, "passfilter");  
+        std::string output_passfilter_file = output_folder_passfilter + "/" + fileName + "_passfilter" + ".pcd";  
+        pcl::io::savePCDFileASCII(output_passfilter_file, *pass_filter_cloud);
+        ROS_INFO("Saved pass_filter_cloud pointcloud to %s", output_passfilter_file.c_str());
+    }
+
     // save inliers
-    std::string output_inlier_file = output_folder + "/" + fileName + "_" +seg_type + "_inlier_seged" + ".pcd";   
+    std::string out_inliers_folder = output_folder + "/" + "inliers";
+    CreateFolder(out_inliers_folder, "inliers");      
+    std::string output_inlier_file = out_inliers_folder + "/" + fileName + "_" +seg_type + "_inlier_seged" + ".pcd";  
     pcl::io::savePCDFileASCII(output_inlier_file, *cloud_seg);
     ROS_INFO("Saved segmented inliers to %s", output_inlier_file.c_str());
 
+
     // saved outliers
     std::string output_folder_outliers = output_folder + "/" + "outliers";
-    if (!boost::filesystem::exists(output_folder_outliers))
-    {
-        if (!boost::filesystem::create_directories(output_folder_outliers))
-        {
-            ROS_ERROR("Failed to create output folder outliers '%s'", output_folder_outliers.c_str());
-            return -1;
-        }
-    }
+    CreateFolder(output_folder_outliers, "outliers"); 
     std::string output_outliers_file = output_folder_outliers + "/" + fileName + "_" +seg_type + "_outlier_seged" + ".pcd";  
     pcl::io::savePCDFileASCII(output_outliers_file, *cloud_seg_outliers);
     ROS_INFO("Saved segmented outliers to %s", output_outliers_file.c_str());
@@ -380,7 +420,13 @@ int main(int argc, char** argv)
     }
 
     if (vis) {
+        visualizePointCloudSingle(cloud, "Raw PointCloud");        
         visualizePointCloudSingle(voxel_filter_cloud, "Voxel-Filter Result");
+
+        if (passf) {
+            visualizePointCloudSingle(pass_filter_cloud, "Pass-Filter Result");
+        }
+
         visualizePointCloud(cloud, cloud_seg, "Original and Segmented Point Cloud Viewer");
         visualizePointCloudSingle(cloud_seg, "Segment Inlier Result");
         visualizePointCloudSingle(cloud_seg_outliers, "Segment Outlier Result");
