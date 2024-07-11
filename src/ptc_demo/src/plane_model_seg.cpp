@@ -17,7 +17,8 @@
 #include <iomanip>
 #include <filesystem>
 #include <boost/filesystem.hpp>
-
+#include <pcl/common/common.h>
+#include <vector>
 
 std::string getFileNameWithoutExtension(const std::string& filePath) {
     // 找到最后一个路径分隔符的位置
@@ -161,6 +162,46 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
 }
 
 
+// 分块处理函数
+void processBlock(const pcl::PointCloud<pcl::PointXYZ>::Ptr &input_block, pcl::PointCloud<pcl::PointXYZ>::Ptr &output_block) {
+    pcl::PointIndicesPtr ground(new pcl::PointIndices);
+    pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
+    pmf.setInputCloud(input_block);
+    pmf.setMaxWindowSize(2.5);
+    pmf.setSlope(1.0f);
+    pmf.setInitialDistance(1.0f);
+    pmf.setMaxDistance(3.0f);
+    pmf.extract(ground->indices);
+
+    // Create the filtering object
+    pcl::ExtractIndices<pcl::PointXYZ> extract;
+    extract.setInputCloud(input_block);
+    extract.setIndices(ground);
+    extract.filter(*output_block);
+}
+
+void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_blocks, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &blocks) {
+    pcl::PointXYZ min_pt, max_pt;
+    pcl::getMinMax3D(*cloud, min_pt, max_pt);
+
+    float x_range = max_pt.x - min_pt.x;
+    float y_range = max_pt.y - min_pt.y;
+    float z_range = max_pt.z - min_pt.z;
+    // std::cout << x_range << std::endl;
+    // std::cout << y_range << std::endl;
+    // std::cout << z_range << std::endl;    
+
+    for (int i = 0; i < num_blocks; ++i) {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr block(new pcl::PointCloud<pcl::PointXYZ>);
+        blocks.push_back(block);
+    }
+
+    for (auto &point : *cloud) {
+        int block_idx = std::min(static_cast<int>((point.x - min_pt.x) / x_range * num_blocks), num_blocks - 1);
+        blocks[block_idx]->points.push_back(point);
+    }
+}
+
 void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size, float initial_dis) {
 
 
@@ -171,7 +212,7 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，尺寸越大，非地面点如树、车等越容易被过滤，而地面点被过滤可能性也增大
     pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
     pmf.setInitialDistance(initial_dis); // original is 0.5 初始距离阈值用于定义在最小窗口尺寸下，地面点的最大允许高度变化。该参数帮助确定初始窗口中哪些点可以被认为是地面点。通常在0.2到1.0之间
-    pmf.setMaxDistance(3.0f); // 最大距离阈值用于定义在最大窗口尺寸下，地面点的最大允许高度变化。通常在1.0到5.0之间。
+    pmf.setMaxDistance(3.0f); // 通常在1.0到5.0之间。通常设置为最低障碍物的高度
     pmf.extract(ground->indices);
 
     // Create the filtering object
@@ -184,6 +225,37 @@ void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl:
     extract.filter(*cloud_outliers);
     // std::cerr << "Ground cloud after filtering: " << std::endl;
     // std::cerr << *cloud_filtered << std::endl;
+
+}
+
+
+void parallel_PMF(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_outliers, int num_blocks, float max_window_size, float initial_dis){
+
+    std::cout << cloud->size() << std::endl;
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> blocks;
+    splitPointCloud(cloud, num_blocks, blocks);
+    std::cout << blocks[0]->size() << std::endl;    
+
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> filtered_blocks(num_blocks);
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> filtered_blocks_outliers(num_blocks);
+
+    for (int i = 0; i < num_blocks; ++i) {
+        filtered_blocks[i] = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+        filtered_blocks_outliers[i] = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>);
+    }
+
+    // 并行处理每个块
+    #pragma omp parallel for
+    for (int i = 0; i < num_blocks; ++i) {
+        PMF_Segment(blocks[i], filtered_blocks[i], filtered_blocks_outliers[i], max_window_size, initial_dis);
+    }
+
+    // 合并结果
+    for (int i = 0; i < num_blocks; ++i) {
+        *cloud_seg += *filtered_blocks[i];
+        *cloud_outliers += *filtered_blocks_outliers[i];
+    }
+
 
 }
 
@@ -254,6 +326,9 @@ int main(int argc, char** argv)
 
     bool passf;
     nh.param<bool>("passf", passf, false);
+
+    bool parallel_pmf;
+    nh.param<bool>("parallel_pmf", parallel_pmf, false);    
 
     //获取参数，如果参数不存在则设置一个默认值
     if (!nh.getParam("/plane_model/pcd_file_path", pcd_file_path))
@@ -330,6 +405,10 @@ int main(int argc, char** argv)
     nh.param<float>("max_window_size", max_window_size, 20);
     float initial_dis;
     nh.param<float>("initial_dis", initial_dis, 0.5);    
+    int num_blocks;
+    nh.param<int>("num_blocks", num_blocks, 8);
+    // std::cout << num_blocks << std::endl;
+
     if (seg_type == "RANSAC")
     {
 
@@ -343,9 +422,19 @@ int main(int argc, char** argv)
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
         if (passf) {
-            PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+
+            if (parallel_pmf) {
+                parallel_PMF(pass_filter_cloud, cloud_seg, cloud_seg_outliers, num_blocks, max_window_size, initial_dis);
+            } else {
+                PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+            }
+
         } else {
-            PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+            if (parallel_pmf) {
+                parallel_PMF(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, num_blocks, max_window_size, initial_dis);
+            } else {
+                PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+            }
         }
 
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());

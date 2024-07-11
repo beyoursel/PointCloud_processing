@@ -15,7 +15,7 @@ void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<
 
     pcl::VoxelGrid<pcl::PointXYZ> vg;
     vg.setInputCloud(cloud);
-    vg.setLeafSize(0.5f, 0.5f, 0.5f);
+    vg.setLeafSize(0.3f, 0.3f, 0.3f);
     vg.filter(*voxel_filtered);
 
     ROS_INFO("the number of v-downsampled ptc is %ld", voxel_filtered->size());
@@ -62,19 +62,10 @@ void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_b
     }
 }
 
-int main(int argc, char** argv) {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_new(new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ>(argv[1], *cloud_new) == -1) {
-        PCL_ERROR("Couldn't read file\n");
-        return (-1);
-    }
-    auto start = std::chrono::high_resolution_clock::now();
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    VoxelDownSample(cloud_new, cloud);
 
-    // 分割点云数据
-    int num_blocks = 16; // 假设分成4块
+void parallel_PMF(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, int num_blocks){
+
     std::cout << cloud->size() << std::endl;
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> blocks;
     splitPointCloud(cloud, num_blocks, blocks);
@@ -92,10 +83,30 @@ int main(int argc, char** argv) {
     }
 
     // 合并结果
-    pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     for (int i = 0; i < num_blocks; ++i) {
-        *filtered_cloud += *filtered_blocks[i];
+        *cloud_seg += *filtered_blocks[i];
     }
+
+
+}
+
+
+int main(int argc, char** argv) {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_new(new pcl::PointCloud<pcl::PointXYZ>);
+    if (pcl::io::loadPCDFile<pcl::PointXYZ>(argv[1], *cloud_new) == -1) {
+        PCL_ERROR("Couldn't read file\n");
+        return (-1);
+    }
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    VoxelDownSample(cloud_new, cloud);
+
+    // 分割点云数据
+    int num_blocks = 16; // 假设分成4块
+    parallel_PMF(cloud, filtered_cloud, num_blocks);
 
     auto end = std::chrono::high_resolution_clock::now();
 
