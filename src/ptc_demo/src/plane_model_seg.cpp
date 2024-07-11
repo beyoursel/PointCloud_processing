@@ -316,7 +316,7 @@ void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::Poi
     pcl::PassThrough<pcl::PointXYZ> pass;
     pass.setInputCloud (input_cloud);
     pass.setFilterFieldName ("z");
-    pass.setFilterLimits (-3, 100);
+    pass.setFilterLimits (-3, 3);
     //pass.setNegative (true);
     pass.filter (*cloud_filtered);
     ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size());  
@@ -443,11 +443,6 @@ int main(int argc, char** argv)
 
     VoxelDownSample(cloud, voxel_filter_cloud);
 
-    // 直通滤波，filter outliers
-    if (passf) {
-        PassthroghFilter(voxel_filter_cloud, pass_filter_cloud);
-    }
-
     std::string seg_type;
     nh.param<std::string>("seg_type", seg_type, "RANSAC");
 
@@ -462,33 +457,23 @@ int main(int argc, char** argv)
 
     if (seg_type == "RANSAC")
     {
-
-        if (passf) {
-            RANSAC(pass_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);     
-        } else {
-            RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
-        }
+        RANSAC(voxel_filter_cloud , cloud_seg, cloud_seg_outliers, dis_thre);
         ROS_INFO("The Segment Algrotihm is RANSAC and the number of Segmented is %ld", cloud_seg->size());
 
     } else if (seg_type == "PMF") {
         // 渐近形态滤波
-        if (passf) {
-
-            if (parallel_pmf) {
-                parallel_PMF(pass_filter_cloud, cloud_seg, cloud_seg_outliers, num_blocks, max_window_size, initial_dis);
-            } else {
-                PMF_Segment(pass_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
-            }
-
-        } else {
             if (parallel_pmf) {
                 parallel_PMF(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, num_blocks, max_window_size, initial_dis);
             } else {
                 PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
             }
-        }
-
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
+    }
+
+
+    // 直通滤波，filter outliers
+    if (passf) {
+        PassthroghFilter(cloud_seg, pass_filter_cloud);
     }
 
     auto end = std::chrono::high_resolution_clock::now();

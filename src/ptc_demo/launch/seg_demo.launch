@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="dis_thre_ransac" default="2" />
-    <arg name="max_window_size_ptc" default="10" />
+    <arg name="max_window_size_ptc" default="2.5" />
     <arg name="initial_dis_ptc" default="1.0" />
     <arg name="num_blocks_ptc" default="8" />
     <arg name="seg_type_ptc" default="PMF"/>
