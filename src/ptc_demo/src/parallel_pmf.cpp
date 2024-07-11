@@ -63,7 +63,6 @@ void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_b
 }
 
 
-
 void parallel_PMF(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud_seg, int num_blocks){
 
     std::cout << cloud->size() << std::endl;

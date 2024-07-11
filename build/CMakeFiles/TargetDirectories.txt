@@ -50,6 +50,7 @@
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/tf2_msgs_generate_messages_lisp.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_py.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir
+/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/appPMF.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/actionlib_generate_messages_py.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/actionlib_generate_messages_nodejs.dir
 /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/actionlib_generate_messages_lisp.dir

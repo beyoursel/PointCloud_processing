@@ -142,6 +142,7 @@ ptc_demo/all: ptc_demo/CMakeFiles/bare_earth.dir/all
 ptc_demo/all: ptc_demo/CMakeFiles/vis.dir/all
 ptc_demo/all: ptc_demo/CMakeFiles/plane_model.dir/all
 ptc_demo/all: ptc_demo/CMakeFiles/ptc_seg.dir/all
+ptc_demo/all: ptc_demo/CMakeFiles/appPMF.dir/all
 ptc_demo/all: ptc_demo/CMakeFiles/euc_cluster.dir/all
 
 .PHONY : ptc_demo/all
@@ -162,6 +163,7 @@ ptc_demo/clean: ptc_demo/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_py.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
+ptc_demo/clean: ptc_demo/CMakeFiles/appPMF.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/actionlib_generate_messages_py.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/actionlib_generate_messages_nodejs.dir/clean
 ptc_demo/clean: ptc_demo/CMakeFiles/actionlib_generate_messages_lisp.dir/clean
@@ -383,7 +385,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=7,8 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=9,10 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -410,7 +412,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=5,6 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=7,8 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -437,7 +439,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=11,12 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=13,14 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -464,7 +466,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=9,10 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=11,12 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -491,7 +493,7 @@ gtest/googletest/CMakeFiles/gtest.dir/clean:
 ptc_demo/CMakeFiles/parallel_pmf.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/parallel_pmf.dir/build.make ptc_demo/CMakeFiles/parallel_pmf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=13,14 "Built target parallel_pmf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=15,16 "Built target parallel_pmf"
 .PHONY : ptc_demo/CMakeFiles/parallel_pmf.dir/all
 
 # Build rule for subdir invocation for target.
@@ -518,7 +520,7 @@ ptc_demo/CMakeFiles/parallel_pmf.dir/clean:
 ptc_demo/CMakeFiles/region_gs.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/region_gs.dir/build.make ptc_demo/CMakeFiles/region_gs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=19,20 "Built target region_gs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=21,22 "Built target region_gs"
 .PHONY : ptc_demo/CMakeFiles/region_gs.dir/all
 
 # Build rule for subdir invocation for target.
@@ -545,7 +547,7 @@ ptc_demo/CMakeFiles/region_gs.dir/clean:
 ptc_demo/CMakeFiles/bare_earth.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/bare_earth.dir/build.make ptc_demo/CMakeFiles/bare_earth.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/bare_earth.dir/build.make ptc_demo/CMakeFiles/bare_earth.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=1,2 "Built target bare_earth"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=3,4 "Built target bare_earth"
 .PHONY : ptc_demo/CMakeFiles/bare_earth.dir/all
 
 # Build rule for subdir invocation for target.
@@ -572,7 +574,7 @@ ptc_demo/CMakeFiles/bare_earth.dir/clean:
 ptc_demo/CMakeFiles/vis.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/vis.dir/build.make ptc_demo/CMakeFiles/vis.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/vis.dir/build.make ptc_demo/CMakeFiles/vis.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=21,22 "Built target vis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=23,24 "Built target vis"
 .PHONY : ptc_demo/CMakeFiles/vis.dir/all
 
 # Build rule for subdir invocation for target.
@@ -599,7 +601,7 @@ ptc_demo/CMakeFiles/vis.dir/clean:
 ptc_demo/CMakeFiles/plane_model.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/plane_model.dir/build.make ptc_demo/CMakeFiles/plane_model.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/plane_model.dir/build.make ptc_demo/CMakeFiles/plane_model.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=15,16 "Built target plane_model"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=17,18 "Built target plane_model"
 .PHONY : ptc_demo/CMakeFiles/plane_model.dir/all
 
 # Build rule for subdir invocation for target.
@@ -626,7 +628,7 @@ ptc_demo/CMakeFiles/plane_model.dir/clean:
 ptc_demo/CMakeFiles/ptc_seg.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/ptc_seg.dir/build.make ptc_demo/CMakeFiles/ptc_seg.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/ptc_seg.dir/build.make ptc_demo/CMakeFiles/ptc_seg.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=17,18 "Built target ptc_seg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=19,20 "Built target ptc_seg"
 .PHONY : ptc_demo/CMakeFiles/ptc_seg.dir/all
 
 # Build rule for subdir invocation for target.
@@ -753,6 +755,33 @@ actionlib_msgs_generate_messages_cpp: ptc_demo/CMakeFiles/actionlib_msgs_generat
 ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean:
 	$(MAKE) -f ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
 .PHONY : ptc_demo/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target ptc_demo/CMakeFiles/appPMF.dir
+
+# All Build rule for target.
+ptc_demo/CMakeFiles/appPMF.dir/all:
+	$(MAKE) -f ptc_demo/CMakeFiles/appPMF.dir/build.make ptc_demo/CMakeFiles/appPMF.dir/depend
+	$(MAKE) -f ptc_demo/CMakeFiles/appPMF.dir/build.make ptc_demo/CMakeFiles/appPMF.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=1,2 "Built target appPMF"
+.PHONY : ptc_demo/CMakeFiles/appPMF.dir/all
+
+# Build rule for subdir invocation for target.
+ptc_demo/CMakeFiles/appPMF.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/appPMF.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles 0
+.PHONY : ptc_demo/CMakeFiles/appPMF.dir/rule
+
+# Convenience name for target.
+appPMF: ptc_demo/CMakeFiles/appPMF.dir/rule
+
+.PHONY : appPMF
+
+# clean rule for target.
+ptc_demo/CMakeFiles/appPMF.dir/clean:
+	$(MAKE) -f ptc_demo/CMakeFiles/appPMF.dir/build.make ptc_demo/CMakeFiles/appPMF.dir/clean
+.PHONY : ptc_demo/CMakeFiles/appPMF.dir/clean
 
 #=============================================================================
 # Target rules for target ptc_demo/CMakeFiles/actionlib_generate_messages_py.dir
@@ -1598,7 +1627,7 @@ ptc_demo/CMakeFiles/topic_tools_generate_messages_cpp.dir/clean:
 ptc_demo/CMakeFiles/euc_cluster.dir/all:
 	$(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/depend
 	$(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=3,4 "Built target euc_cluster"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/CMakeFiles --progress-num=5,6 "Built target euc_cluster"
 .PHONY : ptc_demo/CMakeFiles/euc_cluster.dir/all
 
 # Build rule for subdir invocation for target.

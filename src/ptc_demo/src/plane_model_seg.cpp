@@ -2,6 +2,7 @@
 #include <pcl/point_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/segmentation/progressive_morphological_filter.h>
+#include <pcl/segmentation/approximate_progressive_morphological_filter.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/filters/extract_indices.h>
@@ -19,6 +20,7 @@
 #include <boost/filesystem.hpp>
 #include <pcl/common/common.h>
 #include <vector>
+#include <mutex>
 
 std::string getFileNameWithoutExtension(const std::string& filePath) {
     // 找到最后一个路径分隔符的位置
@@ -162,24 +164,6 @@ int RANSAC(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl
 }
 
 
-// 分块处理函数
-void processBlock(const pcl::PointCloud<pcl::PointXYZ>::Ptr &input_block, pcl::PointCloud<pcl::PointXYZ>::Ptr &output_block) {
-    pcl::PointIndicesPtr ground(new pcl::PointIndices);
-    pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
-    pmf.setInputCloud(input_block);
-    pmf.setMaxWindowSize(2.5);
-    pmf.setSlope(1.0f);
-    pmf.setInitialDistance(1.0f);
-    pmf.setMaxDistance(3.0f);
-    pmf.extract(ground->indices);
-
-    // Create the filtering object
-    pcl::ExtractIndices<pcl::PointXYZ> extract;
-    extract.setInputCloud(input_block);
-    extract.setIndices(ground);
-    extract.filter(*output_block);
-}
-
 void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_blocks, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &blocks) {
     pcl::PointXYZ min_pt, max_pt;
     pcl::getMinMax3D(*cloud, min_pt, max_pt);
@@ -202,12 +186,66 @@ void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_b
     }
 }
 
+// void splitPointCloud1(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_blocks, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &blocks) {
+//     pcl::PointXYZ min_pt, max_pt;
+//     pcl::getMinMax3D(*cloud, min_pt, max_pt);
+
+//     float x_range = max_pt.x - min_pt.x;
+//     float y_range = max_pt.y - min_pt.y;
+//     float z_range = max_pt.z - min_pt.z;
+//     int num_blocks_sqrt = static_cast<int>(std::sqrt(num_blocks));  // Assuming num_blocks is a perfect square
+
+//     // Pre-calculate block boundaries
+//     std::vector<std::vector<std::pair<float, float>>> block_boundaries(num_blocks_sqrt, std::vector<std::pair<float, float>>(num_blocks_sqrt));
+//     for (int i = 0; i < num_blocks_sqrt; ++i) {
+//         for (int j = 0; j < num_blocks_sqrt; ++j) {
+//             block_boundaries[i][j] = {
+//                 min_pt.x + i * x_range / num_blocks_sqrt,
+//                 min_pt.y + j * y_range / num_blocks_sqrt
+//             };
+//         }
+//     }
+
+//     // Initialize blocks
+//     blocks.resize(num_blocks);
+//     for (int i = 0; i < num_blocks; ++i) {
+//         blocks[i] = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
+//     }
+
+//     // Function to process a subset of points in parallel
+//     auto process_points = [&](int start_idx, int end_idx) {
+//         for (int i = start_idx; i < end_idx; ++i) {
+//             auto &point = cloud->points[i];
+//             int x_idx = std::min(static_cast<int>((point.x - min_pt.x) / x_range * num_blocks_sqrt), num_blocks_sqrt - 1);
+//             int y_idx = std::min(static_cast<int>((point.y - min_pt.y) / y_range * num_blocks_sqrt), num_blocks_sqrt - 1);
+//             int block_idx = x_idx * num_blocks_sqrt + y_idx;
+//             blocks[block_idx]->points.push_back(point);
+//         }
+//     };
+
+//     // Divide the workload among multiple threads
+//     int num_threads = std::thread::hardware_concurrency();
+//     std::vector<std::thread> threads;
+//     int points_per_thread = cloud->points.size() / num_threads;
+//     for (int i = 0; i < num_threads; ++i) {
+//         int start_idx = i * points_per_thread;
+//         int end_idx = (i == num_threads - 1) ? cloud->points.size() : start_idx + points_per_thread;
+//         threads.emplace_back(process_points, start_idx, end_idx);
+//     }
+
+//     // Join threads
+//     for (auto &t : threads) {
+//         t.join();
+//     }
+// }
+
 void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size, float initial_dis) {
 
 
     pcl::PointIndicesPtr ground(new pcl::PointIndices);
     // Create the filtering object
-    pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
+    // pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
+	pcl::ApproximateProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
     pmf.setInputCloud(cloud);
     pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，尺寸越大，非地面点如树、车等越容易被过滤，而地面点被过滤可能性也增大
     pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
@@ -233,8 +271,18 @@ void parallel_PMF(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, pcl::PointCloud<pc
 
     std::cout << cloud->size() << std::endl;
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> blocks;
+
+    auto start = std::chrono::high_resolution_clock::now();    
     splitPointCloud(cloud, num_blocks, blocks);
-    std::cout << blocks[0]->size() << std::endl;    
+    auto end = std::chrono::high_resolution_clock::now();   
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    std::cout << "SplitPointCloud Processing time: " << duration << " milliseconds" << std::endl;  
+    // std::cout << blocks[0]->size() << std::endl;    
+
+
+    auto start1 = std::chrono::high_resolution_clock::now();    
 
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> filtered_blocks(num_blocks);
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> filtered_blocks_outliers(num_blocks);
@@ -255,7 +303,10 @@ void parallel_PMF(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, pcl::PointCloud<pc
         *cloud_seg += *filtered_blocks[i];
         *cloud_outliers += *filtered_blocks_outliers[i];
     }
+    auto end1 = std::chrono::high_resolution_clock::now();  
+    auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
 
+    std::cout << "PMF Seg PointCloud Processing time: " << duration1 << " milliseconds" << std::endl;  
 
 }
 

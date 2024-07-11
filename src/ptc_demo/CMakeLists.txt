@@ -162,7 +162,7 @@ add_executable(bare_earth src/bare_earth.cpp)
 add_executable(region_gs src/region_growing_segmentation.cpp)
 add_executable(euc_cluster src/cluster_extraction.cpp)
 add_executable(parallel_pmf src/parallel_pmf.cpp)
-
+add_executable(appPMF src/appPMF.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -205,6 +205,11 @@ target_link_libraries(euc_cluster
 )
 
 target_link_libraries(parallel_pmf
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
+
+target_link_libraries(appPMF
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}  
 )
