@@ -5,22 +5,67 @@
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/passthrough.h>
 #include <pcl/common/common.h>
+#include <chrono>
+#include <boost/filesystem.hpp>
+#include <omp.h>
 
-// 定义点云结构
+std::string getFileNameWithoutExtension(const std::string& filePath) {
+    size_t lastSlash = filePath.find_last_of("/\\");
+    std::string fileNameWithExtension = filePath.substr(lastSlash + 1);
+    size_t lastDot = fileNameWithExtension.find_last_of(".");
+    return fileNameWithExtension.substr(0, lastDot);
+}
+
 struct Point {
     float x, y, z;
 };
 
-// 栅格结构
 struct Grid {
     std::vector<Point> points;
 };
 
-// 比较函数用于按高度排序
 bool compareHeight(const Point& a, const Point& b) {
     return a.z > b.z;
 }
+
+void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered) {
+    // Create the filtering object
+    pcl::PassThrough<pcl::PointXYZ> pass;
+    pass.setInputCloud (input_cloud);
+    pass.setFilterFieldName ("z");
+    pass.setFilterLimits (-1, 5);
+    //pass.setNegative (true);
+    pass.filter (*cloud_filtered);
+    // ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size()); 
+    std::cout << "the number of passthrough ptc is "  << cloud_filtered->size() << std::endl;
+}
+
+double time_inc(std::chrono::high_resolution_clock::time_point &t_end,
+                std::chrono::high_resolution_clock::time_point &t_begin) {
+  
+  return std::chrono::duration_cast<std::chrono::duration<double>>(t_end -t_begin).count() * 1000;
+}
+
+void getMinMax3D_Custom(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointXYZ& min_pt, pcl::PointXYZ& max_pt) {
+    // 初始化 min_pt 和 max_pt
+    min_pt.x = min_pt.y = min_pt.z = std::numeric_limits<float>::max();
+    max_pt.x = max_pt.y = max_pt.z = -std::numeric_limits<float>::max();
+
+    // 遍历点云，找到最小和最大值
+    for (const auto& point : cloud->points) {
+        if (point.x < min_pt.x) min_pt.x = point.x;
+        if (point.y < min_pt.y) min_pt.y = point.y;
+        if (point.z < min_pt.z) min_pt.z = point.z;
+
+        if (point.x > max_pt.x) max_pt.x = point.x;
+        if (point.y > max_pt.y) max_pt.y = point.y;
+        if (point.z > max_pt.z) max_pt.z = point.z;
+    }
+}
+
+
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -28,82 +73,143 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    // 读取PCD文件
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     if (pcl::io::loadPCDFile<pcl::PointXYZ>(argv[1], *cloud) == -1) {
         PCL_ERROR("Couldn't read file %s \n", argv[1]);
         return -1;
     }
 
-    // 体素下采样
+    std::string fileName = getFileNameWithoutExtension(argv[1]);
+
+    std::string output_folder = "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result/simple_extract";
+    if (!boost::filesystem::exists(output_folder)) {
+        if (!boost::filesystem::create_directories(output_folder)) {
+            std::cout << "Failed to create output folder" << std::endl;
+            return -1;
+        }
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+
+    PassthroghFilter(cloud, filtered_cloud);
+
     pcl::VoxelGrid<pcl::PointXYZ> sor;
-    sor.setInputCloud(cloud);
-    sor.setLeafSize(0.1f, 0.1f, 0.1f); // 设置体素网格的大小
+
+    sor.setInputCloud(filtered_cloud);
+    sor.setLeafSize(0.5f, 0.5f, 0.5f);  // voxel_size 
     sor.filter(*filtered_cloud);
 
-    // 找到点云范围
+    // std::cout << "the number of voxel ptc is "  <<  filtered_cloud->size() << std::endl;
+
+    // auto end3 = std::chrono::high_resolution_clock::now();
+    // double duration3 = time_inc(end3, start);
+    // std::cout << "passthrough and voxel: " << duration3 << " milliseconds" << std::endl;
+
+
+    // auto start2 = std::chrono::high_resolution_clock::now();
+
     pcl::PointXYZ min_pt, max_pt;
-    pcl::getMinMax3D(*filtered_cloud, min_pt, max_pt);
+    pcl::getMinMax3D(*filtered_cloud, min_pt, max_pt); //
+    // getMinMax3D_Custom(filtered_cloud, min_pt, max_pt); // 耗时严重
+
+
+    // auto start2 = std::chrono::high_resolution_clock::now();
+
+    // auto end2 = std::chrono::high_resolution_clock::now();
+    // double duration2 = time_inc(end2, start2);
+    // std::cout << "test grid: " << duration2 << " milliseconds" << std::endl;
+
+
+    // auto start1 = std::chrono::high_resolution_clock::now();
 
     float x_range = max_pt.x - min_pt.x;
     float y_range = max_pt.y - min_pt.y;
+    // grid_size
+    float grid_width = 10.0f;
+    float grid_height = 10.0f;
 
-    // 定义栅格尺寸
-    float grid_width = 10.0f;  // 栅格的宽度
-    float grid_height = 10.0f; // 栅格的高度
-
-    // 根据点云范围确定栅格数量
     int M = static_cast<int>(x_range / grid_width) + 1;
     int N = static_cast<int>(y_range / grid_height) + 1;
 
-    // 创建栅格
     std::vector<std::vector<Grid>> grids(M, std::vector<Grid>(N));
 
-    // 将点云分配到栅格中
-    for (const auto& point : filtered_cloud->points) {
+    for (size_t i = 0; i < filtered_cloud->points.size(); ++i) {
+        const auto& point = filtered_cloud->points[i];
         int grid_x = static_cast<int>((point.x - min_pt.x) / grid_width);
         int grid_y = static_cast<int>((point.y - min_pt.y) / grid_height);
 
         if (grid_x >= 0 && grid_x < M && grid_y >= 0 && grid_y < N) {
+
             grids[grid_x][grid_y].points.push_back({point.x, point.y, point.z});
         }
     }
 
-    // 创建一个新的点云用于存储保留的点
-    pcl::PointCloud<pcl::PointXYZ>::Ptr retained_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr ground_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr non_ground_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-    // 对每个栅格中的点云按高度排序并保留后10%的点，若不足一个则保留高度最低的一个点
+
+
     for (int i = 0; i < M; ++i) {
         for (int j = 0; j < N; ++j) {
             auto& grid_points = grids[i][j].points;
             if (!grid_points.empty()) {
-                // 按高度排序
-                std::sort(grid_points.begin(), grid_points.end(), compareHeight);
 
-                // 计算需要保留的点数，若不足一个则保留高度最低的一个点
+                // auto start1 = std::chrono::high_resolution_clock::now();
+
+                std::sort(grid_points.begin(), grid_points.end(), compareHeight);
+                // auto end1 = std::chrono::high_resolution_clock::now();
+
+                // auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
+                // std::cout << "processing time per grid: " << duration1 << " milliseconds" << std::endl;
+
+                // auto start2 = std::chrono::high_resolution_clock::now();
                 size_t retain_count = static_cast<size_t>(grid_points.size() * 0.1);
                 if (retain_count < 1) {
                     retain_count = 1;
                 }
 
-                // 保留后10%的点或一个点
-                for (auto it = grid_points.end() - retain_count; it != grid_points.end(); ++it) {
-                    retained_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
+                {
+                    for (auto it = grid_points.end() - retain_count; it != grid_points.end(); ++it) {
+                        ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
+                    }
+
+                    // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
+                    //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
+                    // }
                 }
+
+
             }
         }
     }
 
-    // 设置点云宽高
-    retained_cloud->width = retained_cloud->points.size();
-    retained_cloud->height = 1;
-    retained_cloud->is_dense = true;
+    // auto end1 = std::chrono::high_resolution_clock::now();  
+    // double duration1 = time_inc(end1, start1);
+    // std::cout << "SORT processing time: " << duration1 << " milliseconds" << std::endl;
 
-    // 保存保留的点云为PCD文件
-    pcl::io::savePCDFile("retained_points.pcd", *retained_cloud);
 
-    std::cout << "Retained points saved to retained_points.pcd" << std::endl;
+    auto end = std::chrono::high_resolution_clock::now();   
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "Extract plane processing time: " << duration << " milliseconds" << std::endl;
+
+    ground_cloud->width = ground_cloud->points.size();
+    ground_cloud->height = 1;
+    ground_cloud->is_dense = true;
+
+    non_ground_cloud->width = non_ground_cloud->points.size();
+    non_ground_cloud->height = 1;
+    non_ground_cloud->is_dense = true;
+
+    std::string ground_pcd_file_save = output_folder + "/" + fileName + "_ground.pcd";
+    // std::string non_ground_pcd_file_save = output_folder + "/" + fileName + "_non_ground.pcd";
+
+    pcl::io::savePCDFile(ground_pcd_file_save, *ground_cloud);
+    // pcl::io::savePCDFile(non_ground_pcd_file_save, *non_ground_cloud);
+
+    std::cout << "Ground points saved to " << ground_pcd_file_save << std::endl;
+    // std::cout << "Non-ground points saved to " << non_ground_pcd_file_save << std::endl;
 
     return 0;
 }

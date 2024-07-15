@@ -222,8 +222,12 @@ ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /us
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/exceptions.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/boost.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/filter.h
+ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/filter_indices.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/impl/filter.hpp
+ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/impl/filter_indices.hpp
+ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/impl/passthrough.hpp
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/impl/voxel_grid.hpp
+ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/passthrough.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/filters/voxel_grid.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/for_each_type.h
 ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o: /usr/include/pcl-1.10/pcl/impl/cloud_iterator.hpp
