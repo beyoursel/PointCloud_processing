@@ -1,13 +1,15 @@
 <launch>
 
-    <arg name="dis_thre_ransac" default="2" />
-    <arg name="max_window_size_ptc" default="2.5" />
+    <arg name="dis_thre_ransac" default="2.0" />
+    <arg name="max_window_size_ptc" default="5" />
     <arg name="initial_dis_ptc" default="1.0" />
     <arg name="num_blocks_ptc" default="8" />
     <arg name="seg_type_ptc" default="PMF"/>
+    <arg name="apppmf_ptc" default="true"/>
     <arg name="MLS_sw" default="false"/>
     <arg name="poly_order_ptc" default="2"/>
     <arg name="search_r_ptc" default="10"/>
+    <arg name="v_size_ptc" default="10" />
     <arg name="vis_ptc" default="false" />
     <arg name="passf_ptc" default="true" />
     <arg name="parallel_pmf_ptc" default="false" />
@@ -22,10 +24,12 @@
         <param name="seg_type" value="$(arg seg_type_ptc)" />
         <param name="MLS" value="$(arg MLS_sw)" />
         <param name="poly_order" value="$(arg poly_order_ptc)" />
-        <param name="search_r" value="$(arg search_r_ptc)" />     
+        <param name="search_r" value="$(arg search_r_ptc)" />    
+        <param name="v_size" value="$(arg v_size_ptc)"/> 
         <param name="vis" value="$(arg vis_ptc)" />
         <param name="passf" value="$(arg passf_ptc)" /> 
         <param name="parallel_pmf" value="$(arg parallel_pmf_ptc)" />   
+        <param name="apppmf" value="$(arg apppmf_ptc)" />   
         <!-- <param name="original_ptc" value="False" /> -->
     </node>
 </launch>

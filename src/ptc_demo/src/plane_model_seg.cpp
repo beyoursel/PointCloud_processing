@@ -107,11 +107,12 @@ void visualizePointCloudSingleMLS(pcl::PointCloud<pcl::PointNormal>::Ptr cloud_s
 }
 
 
-void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filtered) {
+void VoxelDownSample(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_filtered, float v_size) {
 
     pcl::VoxelGrid<pcl::PointXYZ> vg;
     vg.setInputCloud(cloud);
-    vg.setLeafSize(0.3f, 0.3f, 0.3f);
+    // vg.setLeafSize(0.3f, 0.3f, 0.3f);
+    vg.setLeafSize(v_size, v_size, v_size);
     vg.filter(*voxel_filtered);
 
     ROS_INFO("the number of v-downsampled ptc is %ld", voxel_filtered->size());
@@ -239,13 +240,42 @@ void splitPointCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, int num_b
 //     }
 // }
 
+
+void Approximate_PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size, float initial_dis) {
+
+
+    pcl::PointIndicesPtr ground(new pcl::PointIndices);
+    // Create the filtering object
+
+    pcl::ApproximateProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
+    pmf.setInputCloud(cloud);
+    pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，尺寸越大，非地面点如树、车等越容易被过滤，而地面点被过滤可能性也增大
+    pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
+    pmf.setInitialDistance(initial_dis); // original is 0.5 初始距离阈值用于定义在最小窗口尺寸下，地面点的最大允许高度变化。该参数帮助确定初始窗口中哪些点可以被认为是地面点。通常在0.2到1.0之间
+    pmf.setMaxDistance(3.0f); // 通常在1.0到5.0之间。通常设置为最低障碍物的高度
+    pmf.extract(ground->indices);
+
+    // Create the filtering object
+    pcl::ExtractIndices<pcl::PointXYZ> extract;
+    extract.setInputCloud(cloud);
+    extract.setIndices(ground);
+    extract.filter(*cloud_filtered);
+
+    extract.setNegative(true);
+    extract.filter(*cloud_outliers);
+    // std::cerr << "Ground cloud after filtering: " << std::endl;
+    // std::cerr << *cloud_filtered << std::endl;
+
+}
+
+
 void PMF_Segment(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_outliers, float max_window_size, float initial_dis) {
 
 
     pcl::PointIndicesPtr ground(new pcl::PointIndices);
     // Create the filtering object
-    // pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
-	pcl::ApproximateProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
+
+    pcl::ProgressiveMorphologicalFilter<pcl::PointXYZ> pmf;
     pmf.setInputCloud(cloud);
     pmf.setMaxWindowSize(max_window_size); // 最大窗口尺寸，尺寸越大，非地面点如树、车等越容易被过滤，而地面点被过滤可能性也增大
     pmf.setSlope(1.0f); // 定义地面点最大允许坡度，通常在0.5到2.0之间，较低值适用于平坦地形，较高值适用于坡度较大的地形
@@ -316,7 +346,7 @@ void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::Poi
     pcl::PassThrough<pcl::PointXYZ> pass;
     pass.setInputCloud (input_cloud);
     pass.setFilterFieldName ("z");
-    pass.setFilterLimits (-3, 3);
+    pass.setFilterLimits (-3, 5);
     //pass.setNegative (true);
     pass.filter (*cloud_filtered);
     ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size());  
@@ -433,6 +463,8 @@ int main(int argc, char** argv)
     float dis_thre;
     nh.param<float>("dis_thre", dis_thre, 1);
     // ROS_INFO("the dis_thre is %f", dis_thre);
+    float v_size;
+    nh.param<float>("v_size", v_size, 0.3);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_seg_outliers(new pcl::PointCloud<pcl::PointXYZ>);
@@ -441,7 +473,7 @@ int main(int argc, char** argv)
     
     auto start = std::chrono::high_resolution_clock::now();
 
-    VoxelDownSample(cloud, voxel_filter_cloud);
+    VoxelDownSample(cloud, voxel_filter_cloud, v_size);
 
     std::string seg_type;
     nh.param<std::string>("seg_type", seg_type, "RANSAC");
@@ -453,6 +485,8 @@ int main(int argc, char** argv)
     nh.param<float>("initial_dis", initial_dis, 0.5);    
     int num_blocks;
     nh.param<int>("num_blocks", num_blocks, 8);
+    bool apppmf;
+    nh.param<bool>("apppmf", apppmf, "false");
     // std::cout << num_blocks << std::endl;
 
     if (seg_type == "RANSAC")
@@ -465,7 +499,13 @@ int main(int argc, char** argv)
             if (parallel_pmf) {
                 parallel_PMF(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, num_blocks, max_window_size, initial_dis);
             } else {
-                PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+
+                if (apppmf) {
+                    Approximate_PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+                } else {
+                    PMF_Segment(voxel_filter_cloud, cloud_seg, cloud_seg_outliers, max_window_size, initial_dis);
+                }
+
             }
         ROS_INFO("The Segment Algrotihm is PMF and the number of Segmented is %ld", cloud_seg->size());
     }

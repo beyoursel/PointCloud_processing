@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named extract_plane_height
+
+# Build rule for target.
+extract_plane_height: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 extract_plane_height
+.PHONY : extract_plane_height
+
+# fast build rule for target.
+extract_plane_height/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/build
+.PHONY : extract_plane_height/fast
+
+#=============================================================================
 # Target rules for targets named parallel_pmf
 
 # Build rule for target.
@@ -1247,6 +1260,19 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named bin_to_pcd
+
+# Build rule for target.
+bin_to_pcd: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bin_to_pcd
+.PHONY : bin_to_pcd
+
+# fast build rule for target.
+bin_to_pcd/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/bin_to_pcd.dir/build.make ptc_demo/CMakeFiles/bin_to_pcd.dir/build
+.PHONY : bin_to_pcd/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -1424,6 +1450,7 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... extract_plane_height"
 	@echo "... parallel_pmf"
 	@echo "... region_gs"
 	@echo "... bare_earth"
@@ -1498,6 +1525,7 @@ help:
 	@echo "... std_srvs_generate_messages_py"
 	@echo "... tf_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... bin_to_pcd"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... nodelet_generate_messages_eus"

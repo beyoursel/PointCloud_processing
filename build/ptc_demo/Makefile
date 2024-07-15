@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+ptc_demo/CMakeFiles/extract_plane_height.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/extract_plane_height.dir/rule
+.PHONY : ptc_demo/CMakeFiles/extract_plane_height.dir/rule
+
+# Convenience name for target.
+extract_plane_height: ptc_demo/CMakeFiles/extract_plane_height.dir/rule
+
+.PHONY : extract_plane_height
+
+# fast build rule for target.
+extract_plane_height/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/build
+.PHONY : extract_plane_height/fast
+
+# Convenience name for target.
 ptc_demo/CMakeFiles/parallel_pmf.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/parallel_pmf.dir/rule
 .PHONY : ptc_demo/CMakeFiles/parallel_pmf.dir/rule
@@ -1278,6 +1293,21 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
+ptc_demo/CMakeFiles/bin_to_pcd.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/bin_to_pcd.dir/rule
+.PHONY : ptc_demo/CMakeFiles/bin_to_pcd.dir/rule
+
+# Convenience name for target.
+bin_to_pcd: ptc_demo/CMakeFiles/bin_to_pcd.dir/rule
+
+.PHONY : bin_to_pcd
+
+# fast build rule for target.
+bin_to_pcd/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bin_to_pcd.dir/build.make ptc_demo/CMakeFiles/bin_to_pcd.dir/build
+.PHONY : bin_to_pcd/fast
+
+# Convenience name for target.
 ptc_demo/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 .PHONY : ptc_demo/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
@@ -1511,6 +1541,33 @@ src/bare_earth.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bare_earth.dir/build.make ptc_demo/CMakeFiles/bare_earth.dir/src/bare_earth.cpp.s
 .PHONY : src/bare_earth.cpp.s
 
+src/bin_to_pcd.o: src/bin_to_pcd.cpp.o
+
+.PHONY : src/bin_to_pcd.o
+
+# target to build an object file
+src/bin_to_pcd.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bin_to_pcd.dir/build.make ptc_demo/CMakeFiles/bin_to_pcd.dir/src/bin_to_pcd.cpp.o
+.PHONY : src/bin_to_pcd.cpp.o
+
+src/bin_to_pcd.i: src/bin_to_pcd.cpp.i
+
+.PHONY : src/bin_to_pcd.i
+
+# target to preprocess a source file
+src/bin_to_pcd.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bin_to_pcd.dir/build.make ptc_demo/CMakeFiles/bin_to_pcd.dir/src/bin_to_pcd.cpp.i
+.PHONY : src/bin_to_pcd.cpp.i
+
+src/bin_to_pcd.s: src/bin_to_pcd.cpp.s
+
+.PHONY : src/bin_to_pcd.s
+
+# target to generate assembly for a file
+src/bin_to_pcd.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bin_to_pcd.dir/build.make ptc_demo/CMakeFiles/bin_to_pcd.dir/src/bin_to_pcd.cpp.s
+.PHONY : src/bin_to_pcd.cpp.s
+
 src/cluster_extraction.o: src/cluster_extraction.cpp.o
 
 .PHONY : src/cluster_extraction.o
@@ -1537,6 +1594,33 @@ src/cluster_extraction.s: src/cluster_extraction.cpp.s
 src/cluster_extraction.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.s
 .PHONY : src/cluster_extraction.cpp.s
+
+src/extract_plane_height.o: src/extract_plane_height.cpp.o
+
+.PHONY : src/extract_plane_height.o
+
+# target to build an object file
+src/extract_plane_height.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o
+.PHONY : src/extract_plane_height.cpp.o
+
+src/extract_plane_height.i: src/extract_plane_height.cpp.i
+
+.PHONY : src/extract_plane_height.i
+
+# target to preprocess a source file
+src/extract_plane_height.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.i
+.PHONY : src/extract_plane_height.cpp.i
+
+src/extract_plane_height.s: src/extract_plane_height.cpp.s
+
+.PHONY : src/extract_plane_height.s
+
+# target to generate assembly for a file
+src/extract_plane_height.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.s
+.PHONY : src/extract_plane_height.cpp.s
 
 src/parallel_pmf.o: src/parallel_pmf.cpp.o
 
@@ -1683,6 +1767,7 @@ help:
 	@echo "... install/local"
 	@echo "... install"
 	@echo "... rebuild_cache"
+	@echo "... extract_plane_height"
 	@echo "... parallel_pmf"
 	@echo "... region_gs"
 	@echo "... bare_earth"
@@ -1760,6 +1845,7 @@ help:
 	@echo "... std_srvs_generate_messages_py"
 	@echo "... tf_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... bin_to_pcd"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... nodelet_generate_messages_eus"
@@ -1778,9 +1864,15 @@ help:
 	@echo "... src/bare_earth.o"
 	@echo "... src/bare_earth.i"
 	@echo "... src/bare_earth.s"
+	@echo "... src/bin_to_pcd.o"
+	@echo "... src/bin_to_pcd.i"
+	@echo "... src/bin_to_pcd.s"
 	@echo "... src/cluster_extraction.o"
 	@echo "... src/cluster_extraction.i"
 	@echo "... src/cluster_extraction.s"
+	@echo "... src/extract_plane_height.o"
+	@echo "... src/extract_plane_height.i"
+	@echo "... src/extract_plane_height.s"
 	@echo "... src/parallel_pmf.o"
 	@echo "... src/parallel_pmf.i"
 	@echo "... src/parallel_pmf.s"

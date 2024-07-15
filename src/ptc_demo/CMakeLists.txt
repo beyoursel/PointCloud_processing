@@ -163,6 +163,8 @@ add_executable(region_gs src/region_growing_segmentation.cpp)
 add_executable(euc_cluster src/cluster_extraction.cpp)
 add_executable(parallel_pmf src/parallel_pmf.cpp)
 add_executable(appPMF src/appPMF.cpp)
+add_executable(bin_to_pcd src/bin_to_pcd.cpp)
+add_executable(extract_plane_height src/extract_plane_height.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -213,6 +215,17 @@ target_link_libraries(appPMF
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}  
 )
+
+target_link_libraries(bin_to_pcd
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
+
+target_link_libraries(extract_plane_height
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
+
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 include_directories(${Boost_INCLUDE_DIRS})
