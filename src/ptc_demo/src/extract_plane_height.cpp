@@ -6,6 +6,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/passthrough.h>
+#include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/common/common.h>
 #include <chrono>
 #include <boost/filesystem.hpp>
@@ -27,15 +28,26 @@ struct Grid {
 };
 
 bool compareHeight(const Point& a, const Point& b) {
-    return a.z > b.z;
+    return a.z < b.z;
 }
+
+
+void StatisticalRemoveOutlier(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered) {
+      // Create the filtering object
+    pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+    sor.setInputCloud (input_cloud);
+    sor.setMeanK (10);
+    sor.setStddevMulThresh (0.995);
+    sor.filter (*cloud_filtered);
+}
+
 
 void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered) {
     // Create the filtering object
     pcl::PassThrough<pcl::PointXYZ> pass;
     pass.setInputCloud (input_cloud);
     pass.setFilterFieldName ("z");
-    pass.setFilterLimits (-1, 5);
+    pass.setFilterLimits (-2, 5);
     //pass.setNegative (true);
     pass.filter (*cloud_filtered);
     // ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size()); 
@@ -101,6 +113,9 @@ int main(int argc, char** argv) {
     sor.setLeafSize(0.5f, 0.5f, 0.5f);  // voxel_size 
     sor.filter(*filtered_cloud);
 
+
+    // StatisticalRemoveOutlier(filtered_cloud, filtered_cloud);
+
     // std::cout << "the number of voxel ptc is "  <<  filtered_cloud->size() << std::endl;
 
     // auto end3 = std::chrono::high_resolution_clock::now();
@@ -127,8 +142,8 @@ int main(int argc, char** argv) {
     float x_range = max_pt.x - min_pt.x;
     float y_range = max_pt.y - min_pt.y;
     // grid_size
-    float grid_width = 10.0f;
-    float grid_height = 10.0f;
+    float grid_width = 15.0f;
+    float grid_height = 15.0f;
 
     int M = static_cast<int>(x_range / grid_width) + 1;
     int N = static_cast<int>(y_range / grid_height) + 1;
@@ -147,8 +162,7 @@ int main(int argc, char** argv) {
     }
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr ground_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr non_ground_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-
+    // pcl::PointCloud<pcl::PointXYZ>::Ptr non_ground_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
 
     for (int i = 0; i < M; ++i) {
@@ -170,15 +184,20 @@ int main(int argc, char** argv) {
                     retain_count = 1;
                 }
 
-                {
-                    for (auto it = grid_points.end() - retain_count; it != grid_points.end(); ++it) {
-                        ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
-                    }
+                ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, grid_points[retain_count-1].z));
+                // if (retain_count < 1) {
+                //     retain_count = 1;
+                // }
 
-                    // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
-                    //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
-                    // }
-                }
+                // {
+                //     for (auto it = grid_points.end() - retain_count; it != grid_points.end(); ++it) {
+                //         ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
+                //     }
+
+                //     // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
+                //     //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
+                //     // }
+                // }
 
 
             }
@@ -194,13 +213,15 @@ int main(int argc, char** argv) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << "Extract plane processing time: " << duration << " milliseconds" << std::endl;
 
+    StatisticalRemoveOutlier(ground_cloud, ground_cloud);
+
     ground_cloud->width = ground_cloud->points.size();
     ground_cloud->height = 1;
     ground_cloud->is_dense = true;
 
-    non_ground_cloud->width = non_ground_cloud->points.size();
-    non_ground_cloud->height = 1;
-    non_ground_cloud->is_dense = true;
+    // non_ground_cloud->width = non_ground_cloud->points.size();
+    // non_ground_cloud->height = 1;
+    // non_ground_cloud->is_dense = true;
 
     std::string ground_pcd_file_save = output_folder + "/" + fileName + "_ground.pcd";
     // std::string non_ground_pcd_file_save = output_folder + "/" + fileName + "_non_ground.pcd";
