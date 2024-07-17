@@ -74,6 +74,7 @@
         "variant": "cpp",
         "filesystem": "cpp",
         "codecvt": "cpp",
-        "csignal": "cpp"
+        "csignal": "cpp",
+        "dense": "cpp"
     }
 }

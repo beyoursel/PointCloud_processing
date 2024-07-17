@@ -753,6 +753,19 @@ pcl_msgs_generate_messages_py/fast:
 .PHONY : pcl_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named extract_plane_bspline
+
+# Build rule for target.
+extract_plane_bspline: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 extract_plane_bspline
+.PHONY : extract_plane_bspline
+
+# fast build rule for target.
+extract_plane_bspline/fast:
+	$(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/build
+.PHONY : extract_plane_bspline/fast
+
+#=============================================================================
 # Target rules for targets named pcl_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -1486,6 +1499,7 @@ help:
 	@echo "... std_srvs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... pcl_msgs_generate_messages_py"
+	@echo "... extract_plane_bspline"
 	@echo "... pcl_msgs_generate_messages_lisp"
 	@echo "... pcl_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_py"

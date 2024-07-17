@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(PCL 1.10 REQUIRED)
+# find_package(PCL 1.10 REQUIRED COMPONENTS common io filters surface)
 
 # find_package(OpenMP REQUIRED)
 
@@ -132,7 +133,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
 )
@@ -165,6 +166,7 @@ add_executable(parallel_pmf src/parallel_pmf.cpp)
 add_executable(appPMF src/appPMF.cpp)
 add_executable(bin_to_pcd src/bin_to_pcd.cpp)
 add_executable(extract_plane_height src/extract_plane_height.cpp)
+add_executable(extract_plane_bspline src/extract_plane_bspline.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -226,6 +228,10 @@ target_link_libraries(extract_plane_height
   ${PCL_LIBRARIES}  
 )
 
+target_link_libraries(extract_plane_bspline
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
 
 find_package(Boost REQUIRED COMPONENTS filesystem)
 include_directories(${Boost_INCLUDE_DIRS})

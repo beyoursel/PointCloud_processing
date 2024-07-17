@@ -708,6 +708,21 @@ pcl_msgs_generate_messages_py/fast:
 .PHONY : pcl_msgs_generate_messages_py/fast
 
 # Convenience name for target.
+ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
+.PHONY : ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
+
+# Convenience name for target.
+extract_plane_bspline: ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
+
+.PHONY : extract_plane_bspline
+
+# fast build rule for target.
+extract_plane_bspline/fast:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/build
+.PHONY : extract_plane_bspline/fast
+
+# Convenience name for target.
 ptc_demo/CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule
 .PHONY : ptc_demo/CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule
@@ -1595,6 +1610,33 @@ src/cluster_extraction.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.s
 .PHONY : src/cluster_extraction.cpp.s
 
+src/extract_plane_bspline.o: src/extract_plane_bspline.cpp.o
+
+.PHONY : src/extract_plane_bspline.o
+
+# target to build an object file
+src/extract_plane_bspline.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.o
+.PHONY : src/extract_plane_bspline.cpp.o
+
+src/extract_plane_bspline.i: src/extract_plane_bspline.cpp.i
+
+.PHONY : src/extract_plane_bspline.i
+
+# target to preprocess a source file
+src/extract_plane_bspline.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.i
+.PHONY : src/extract_plane_bspline.cpp.i
+
+src/extract_plane_bspline.s: src/extract_plane_bspline.cpp.s
+
+.PHONY : src/extract_plane_bspline.s
+
+# target to generate assembly for a file
+src/extract_plane_bspline.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.s
+.PHONY : src/extract_plane_bspline.cpp.s
+
 src/extract_plane_height.o: src/extract_plane_height.cpp.o
 
 .PHONY : src/extract_plane_height.o
@@ -1805,6 +1847,7 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
 	@echo "... pcl_msgs_generate_messages_py"
+	@echo "... extract_plane_bspline"
 	@echo "... pcl_msgs_generate_messages_lisp"
 	@echo "... pcl_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_py"
@@ -1870,6 +1913,9 @@ help:
 	@echo "... src/cluster_extraction.o"
 	@echo "... src/cluster_extraction.i"
 	@echo "... src/cluster_extraction.s"
+	@echo "... src/extract_plane_bspline.o"
+	@echo "... src/extract_plane_bspline.i"
+	@echo "... src/extract_plane_bspline.s"
 	@echo "... src/extract_plane_height.o"
 	@echo "... src/extract_plane_height.i"
 	@echo "... src/extract_plane_height.s"
