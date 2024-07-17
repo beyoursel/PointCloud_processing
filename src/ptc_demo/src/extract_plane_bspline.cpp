@@ -137,9 +137,9 @@ int main(int argc, char** argv)
         knots_v[i] = static_cast<float>(i - kv + 1);
     }
 
-    for (auto& u_v: knots_u) {
-        std::cout << u_v << std::endl;
-    }
+    // for (auto& u_v: knots_u) {
+    //     std::cout << u_v << std::endl;
+    // }
 
     // 创建 B-spline 曲面对象
     bspSurface surface(cnPoint, knots_u, knots_v);

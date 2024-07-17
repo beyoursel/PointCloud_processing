@@ -37,7 +37,7 @@ void StatisticalRemoveOutlier(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , 
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
     sor.setInputCloud (input_cloud);
     sor.setMeanK (10);
-    sor.setStddevMulThresh (0.995);
+    sor.setStddevMulThresh (2.0);
     sor.filter (*cloud_filtered);
 }
 
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
 
     std::string fileName = getFileNameWithoutExtension(argv[1]);
 
-    std::string output_folder = "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result/simple_extract";
+    std::string output_folder = "/media/taole/ssd1/letaotao/PointCloud_processing/seg_result/simple_extract";
     if (!boost::filesystem::exists(output_folder)) {
         if (!boost::filesystem::create_directories(output_folder)) {
             std::cout << "Failed to create output folder" << std::endl;
@@ -183,20 +183,17 @@ int main(int argc, char** argv) {
                 if (retain_count < 1) {
                     retain_count = 1;
                 }
+                // one point at the bottom of 10%
+                // ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, grid_points[retain_count-1].z));
 
-                ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, grid_points[retain_count-1].z));
-                // if (retain_count < 1) {
-                //     retain_count = 1;
-                // }
-
-                // {
-                //     for (auto it = grid_points.end() - retain_count; it != grid_points.end(); ++it) {
-                //         ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
-                //     }
-
-                //     // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
-                //     //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
-                //     // }
+                // mean height of 10% pointcloud at bottom
+                float height_sum = 0.0;
+                for (auto it = grid_points.begin(); it != grid_points.begin() + retain_count; ++it) {
+                    height_sum += it->z;
+                }
+                ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, height_sum/retain_count));
+                // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
+                //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
                 // }
 
 
