@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/media/taole/ssd1/letaotao/PointCloud_processing/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

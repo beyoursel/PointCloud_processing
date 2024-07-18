@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 
     std::string fileName = getFileNameWithoutExtension(argv[1]);
 
-    std::string output_folder = "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result/simple_extract";
+    std::string output_folder = "/media/taole/ssd1/letaotao/PointCloud_processing/seg_result/simple_extract";
     if (!boost::filesystem::exists(output_folder)) {
         if (!boost::filesystem::create_directories(output_folder)) {
             std::cout << "Failed to create output folder" << std::endl;

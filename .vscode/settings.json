@@ -76,5 +76,6 @@
         "codecvt": "cpp",
         "csignal": "cpp",
         "dense": "cpp"
-    }
+    },
+    "ros.distro": "noetic"
 }

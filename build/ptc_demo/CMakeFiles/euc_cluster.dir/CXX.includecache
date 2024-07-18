@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/cluster_extraction.cpp
+/media/taole/ssd1/letaotao/PointCloud_processing/src/ptc_demo/src/cluster_extraction.cpp
 pcl/ModelCoefficients.h
 -
 pcl/point_types.h

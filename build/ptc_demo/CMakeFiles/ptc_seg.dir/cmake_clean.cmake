@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/ptc_seg"
-  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/ptc_seg.pdb"
+  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/ptc_seg"
+  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/ptc_seg.pdb"
   "CMakeFiles/ptc_seg.dir/src/ptc_seg.cpp.o"
 )
 

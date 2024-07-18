@@ -1,2 +1,2 @@
 ptc_demo
--DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DCATKIN_DEVEL_PREFIX=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel -DCMAKE_INSTALL_PREFIX=/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/media/taole/ssd1/letaotao/PointCloud_processing/devel -DCMAKE_INSTALL_PREFIX=/media/taole/ssd1/letaotao/PointCloud_processing/install -G Unix Makefiles

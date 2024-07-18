@@ -1,1 +1,1 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libgmock.so -o ../lib/libgmock.so CMakeFiles/gmock.dir/src/gmock-all.cc.o  -Wl,-rpath,/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/gtest/lib ../lib/libgtest.so -lpthread 
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libgmock.so -o ../lib/libgmock.so CMakeFiles/gmock.dir/src/gmock-all.cc.o  -Wl,-rpath,/media/taole/ssd1/letaotao/PointCloud_processing/build/gtest/lib ../lib/libgtest.so -lpthread 

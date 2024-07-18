@@ -19,7 +19,7 @@ struct Point {
 
     // 比较操作符，按照 x 坐标排序
     bool operator<(const Point& other) const {
-        return x > other.x;
+        return x < other.x;
     }
 };
 
@@ -85,7 +85,7 @@ float getAverageHeight(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
 }
 
 // 插值函数：使用KNN（k近邻）算法来填充空栅格
-float interpolatePoint(const std::vector<Point>& points, double x, double y, int k = 2) {
+float interpolatePoint(const std::vector<Point>& points, double x, double y, int k = 3) {
     std::priority_queue<std::pair<double, Point>> pq;
 
     for (const auto& pt : points) {
@@ -113,7 +113,7 @@ float interpolatePoint(const std::vector<Point>& points, double x, double y, int
 
 double time_inc(std::chrono::high_resolution_clock::time_point &t_end,
                 std::chrono::high_resolution_clock::time_point &t_begin) {
-  
+
   return std::chrono::duration_cast<std::chrono::duration<double>>(t_end -t_begin).count() * 1000;
 }
 
@@ -167,14 +167,6 @@ int main(int argc, char** argv)
         float y_ptc = static_cast<float>(point.y);
         cnPoint[(x_ptc - min_pt.x) / grid_width][(y_ptc - min_pt.y) / grid_height](2) = point.z;
     }
-    
-
-  
-    for (size_t i = 0; i < M; i++) {
-        for (size_t j = 0; j < N; j++) {
-            std::cout << cnPoint[i][j] << std::endl;
-        }
-    }
 
     int countx = 1;
     std::vector<Point> ptc = pclPointCloudToVector(cloud);
@@ -191,7 +183,7 @@ int main(int argc, char** argv)
         }
     }
 
-  
+
     // for (size_t i = 0; i < M; i++) {
     //     for (size_t j = 0; j < N; j++) {
     //         std::cout << cnPoint[i][j] << std::endl;
@@ -222,8 +214,8 @@ int main(int argc, char** argv)
 
 
 
-    int ku = 3; // u 向的阶数
-    int kv = 3; // v 向的阶数
+    int ku = 4; // u 向的阶数
+    int kv = 4; // v 向的阶数
 
     // 设置均匀节点向量
     vector<float> knots_u(cnPoint.size() + ku);
