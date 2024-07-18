@@ -12,12 +12,14 @@
 #include <boost/filesystem.hpp>
 #include <omp.h>
 
+
 std::string getFileNameWithoutExtension(const std::string& filePath) {
     size_t lastSlash = filePath.find_last_of("/\\");
     std::string fileNameWithExtension = filePath.substr(lastSlash + 1);
     size_t lastDot = fileNameWithExtension.find_last_of(".");
     return fileNameWithExtension.substr(0, lastDot);
 }
+
 
 struct Point {
     float x, y, z;
@@ -26,6 +28,7 @@ struct Point {
 struct Grid {
     std::vector<Point> points;
 };
+
 
 bool compareHeight(const Point& a, const Point& b) {
     return a.z < b.z;
@@ -54,11 +57,13 @@ void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::Poi
     std::cout << "the number of passthrough ptc is "  << cloud_filtered->size() << std::endl;
 }
 
+
 double time_inc(std::chrono::high_resolution_clock::time_point &t_end,
                 std::chrono::high_resolution_clock::time_point &t_begin) {
   
   return std::chrono::duration_cast<std::chrono::duration<double>>(t_end -t_begin).count() * 1000;
 }
+
 
 void getMinMax3D_Custom(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointXYZ& min_pt, pcl::PointXYZ& max_pt) {
     // 初始化 min_pt 和 max_pt
@@ -78,7 +83,6 @@ void getMinMax3D_Custom(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::P
 }
 
 
-
 int main(int argc, char** argv) {
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <input_pcd_file>" << std::endl;
@@ -93,7 +97,7 @@ int main(int argc, char** argv) {
 
     std::string fileName = getFileNameWithoutExtension(argv[1]);
 
-    std::string output_folder = "/media/taole/ssd1/letaotao/PointCloud_processing/seg_result/simple_extract";
+    std::string output_folder = "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result/simple_extract";
     if (!boost::filesystem::exists(output_folder)) {
         if (!boost::filesystem::create_directories(output_folder)) {
             std::cout << "Failed to create output folder" << std::endl;
@@ -184,14 +188,15 @@ int main(int argc, char** argv) {
                     retain_count = 1;
                 }
                 // one point at the bottom of 10%
-                // ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, grid_points[retain_count-1].z));
+                ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, grid_points[retain_count-1].z));
 
                 // mean height of 10% pointcloud at bottom
-                float height_sum = 0.0;
-                for (auto it = grid_points.begin(); it != grid_points.begin() + retain_count; ++it) {
-                    height_sum += it->z;
-                }
-                ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, height_sum/retain_count));
+                // float height_sum = 0.0;
+                // for (auto it = grid_points.begin(); it != grid_points.begin() + retain_count; ++it) {
+                //     height_sum += it->z;
+                // }
+                // ground_cloud->points.push_back(pcl::PointXYZ((i + 0.5) * grid_width + min_pt.x, (j + 0.5) * grid_height + min_pt.y, height_sum/retain_count));
+                
                 // for (auto it = grid_points.begin(); it != grid_points.end() - retain_count; ++it) {
                 //     non_ground_cloud->points.push_back(pcl::PointXYZ(it->x, it->y, it->z));
                 // }

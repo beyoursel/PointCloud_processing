@@ -24,11 +24,11 @@ def load_and_visualize_pcds(original_pcd_path, segmented_pcd_path):
     segmented_pcd.paint_uniform_color([1, 0, 0])
 
     # 将较大点云的点进行多次重复，使得其视觉上显得更大
-    large_points = np.asarray(segmented_pcd.points)
-    large_points_repeated = np.repeat(large_points, 5, axis=0)  # 这里的 5 表示重复次数
-    large_pcd = o3d.geometry.PointCloud()
-    large_pcd.points = o3d.utility.Vector3dVector(large_points_repeated)
-    large_pcd.colors = o3d.utility.Vector3dVector(np.repeat([[1, 0, 0]], len(large_points_repeated), axis=0))
+    # large_points = np.asarray(segmented_pcd.points)
+    # large_points_repeated = np.repeat(large_points, 5, axis=0)  # 这里的 5 表示重复次数
+    # large_pcd = o3d.geometry.PointCloud()
+    # large_pcd.points = o3d.utility.Vector3dVector(large_points_repeated)
+    # large_pcd.colors = o3d.utility.Vector3dVector(np.repeat([[1, 0, 0]], len(large_points_repeated), axis=0))
 
     # 创建可视化对象并添加两个点云
     vis = o3d.visualization.VisualizerWithKeyCallback()
@@ -52,7 +52,7 @@ def load_and_visualize_pcds(original_pcd_path, segmented_pcd_path):
 
     # 添加点云到可视化对象
     vis.add_geometry(original_pcd)
-    vis.add_geometry(large_pcd)
+    vis.add_geometry(segmented_pcd)
 
     # 运行可视化
     vis.register_key_callback(ord("D"), key_show_orgi_callback)

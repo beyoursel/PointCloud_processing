@@ -8,8 +8,36 @@
 #include <Bspline.h>
 #include <pcl/common/common.h>
 #include <chrono>
-
+#include <queue>
+#include <limits>
 using namespace std;
+
+
+// 定义点的结构体
+struct Point {
+    double x, y, z;
+
+    // 比较操作符，按照 x 坐标排序
+    bool operator<(const Point& other) const {
+        return x > other.x;
+    }
+};
+
+// 将pcl::PointCloud<pcl::PointXYZ>::Ptr转换为std::vector<Point>
+std::vector<Point> pclPointCloudToVector(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+    std::vector<Point> points;
+
+    for (const auto& pt : cloud->points) {
+        Point p;
+        p.x = pt.x;
+        p.y = pt.y;
+        p.z = pt.z;
+        points.push_back(p);
+    }
+
+    return points;
+}
+
 
 void visualizePointCloud(
     const vector<Eigen::Vector3d>& vertices,
@@ -47,6 +75,49 @@ void visualizePointCloud(
     }
 }
 
+float getAverageHeight(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+
+    float temp_height = 0.0;
+    for (auto& point: cloud->points) {
+        temp_height += point.z;
+    }
+    return temp_height / cloud->points.size();
+}
+
+// 插值函数：使用KNN（k近邻）算法来填充空栅格
+float interpolatePoint(const std::vector<Point>& points, double x, double y, int k = 2) {
+    std::priority_queue<std::pair<double, Point>> pq;
+
+    for (const auto& pt : points) {
+        double dist = std::sqrt((pt.x - x) * (pt.x - x) + (pt.y - y) * (pt.y - y));
+        pq.push(std::make_pair(dist, pt));
+        if (pq.size() > k) {
+            pq.pop();
+        }
+    }
+
+    double sum_z = 0.0;
+    int count = 0;
+    while (!pq.empty()) {
+        auto top = pq.top();
+        pq.pop();
+        // sum_x += top.second.x;
+        // sum_y += top.second.y;
+        sum_z += top.second.z;
+        count++;
+    }
+    return sum_z / count;
+    // return Eigen::Vector3d(sum_x / count, sum_y / count, sum_z / count);
+}
+
+
+double time_inc(std::chrono::high_resolution_clock::time_point &t_end,
+                std::chrono::high_resolution_clock::time_point &t_begin) {
+  
+  return std::chrono::duration_cast<std::chrono::duration<double>>(t_end -t_begin).count() * 1000;
+}
+
+
 int main(int argc, char** argv)
 {
     if (argc != 2) {
@@ -60,12 +131,17 @@ int main(int argc, char** argv)
         return -1;
     }
 
+
+
+    // create controlPoints grid from pointcloud
     pcl::PointXYZ min_pt, max_pt;
     pcl::getMinMax3D(*cloud, min_pt, max_pt);
 
     float x_range = max_pt.x - min_pt.x;
     float y_range = max_pt.y - min_pt.y;
-    float low_peak = min_pt.z;
+
+    float low_peak = max_pt.z;
+    // float low_peak = getAverageHeight(cloud);
     float grid_width = 15.0f;
     float grid_height = 15.0f;
 
@@ -74,10 +150,15 @@ int main(int argc, char** argv)
 
     vector<vector<Eigen::Vector3d>> cnPoint(M, vector<Eigen::Vector3d>(N));
 
+    double maxDouble = std::numeric_limits<double>::max();
+
     // create control points grid
     for (size_t i = 0; i < M; i++) {
         for (size_t j = 0; j < N; j++) {
-            cnPoint[i][j] = Eigen::Vector3d(min_pt.x + i * grid_width, min_pt.y + j * grid_height, low_peak);
+            // cnPoint[i][j] = Eigen::Vector3d(min_pt.x + i * grid_width, min_pt.y + j * grid_height, low_peak);
+            cnPoint[i][j](0) = min_pt.x + i * grid_width;
+            cnPoint[i][j](1) = min_pt.y + j * grid_height;
+            cnPoint[i][j](2) = maxDouble;
         }
     }
 
@@ -86,29 +167,60 @@ int main(int argc, char** argv)
         int y_ptc = static_cast<int>(point.y);
         cnPoint[(x_ptc - min_pt.x) / grid_width][(y_ptc - min_pt.y) / grid_height](2) = point.z;
     }
+    
 
-
-    // 动态调整控制点高度
+  
     for (size_t i = 0; i < M; i++) {
         for (size_t j = 0; j < N; j++) {
-            double avg_height = cnPoint[i][j][2]; // 当前高度
-            int count = 1;
-
-            for (int di = -1; di <= 1; ++di) {
-                for (int dj = -1; dj <= 1; ++dj) {
-                    if (di == 0 && dj == 0) continue; // skip itself
-                    int ni = i + di;
-                    int nj = j + dj;
-                    if (ni >= 0 && ni < M && nj >= 0 && nj < N) {
-                        avg_height += cnPoint[ni][nj][2]; // 累加相邻高度
-                        count++;
-                    }
-                }
-            }
-
-            cnPoint[i][j][2] = avg_height / count; // 更新高度为平均值
+            std::cout << cnPoint[i][j] << std::endl;
         }
     }
+
+    int countx = 1;
+    std::vector<Point> ptc = pclPointCloudToVector(cloud);
+    // // 插值填充空栅格
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            if (cnPoint[i][j](2) == maxDouble) {
+                double x_em = min_pt.x + i * grid_width;
+                double y_em = min_pt.y + j * grid_height;
+                cnPoint[i][j](2) = interpolatePoint(ptc, x_em, y_em);
+                // std::cout << countx << std::endl;
+                // countx++;
+            }
+        }
+    }
+
+  
+    // for (size_t i = 0; i < M; i++) {
+    //     for (size_t j = 0; j < N; j++) {
+    //         std::cout << cnPoint[i][j] << std::endl;
+    //     }
+    // }
+
+    // 动态调整控制点高度
+    // for (size_t i = 0; i < M; i++) {
+    //     for (size_t j = 0; j < N; j++) {
+    //         double avg_height = cnPoint[i][j][2]; // 当前高度
+    //         int count = 1;
+
+    //         for (int di = -1; di <= 1; ++di) {
+    //             for (int dj = -1; dj <= 1; ++dj) {
+    //                 if (di == 0 && dj == 0) continue; // skip itself
+    //                 int ni = i + di;
+    //                 int nj = j + dj;
+    //                 if (ni >= 0 && ni < M && nj >= 0 && nj < N) {
+    //                     avg_height += cnPoint[ni][nj][2]; // 累加相邻高度
+    //                     count++;
+    //                 }
+    //             }
+    //         }
+
+    //         cnPoint[i][j][2] = avg_height / count; // 更新高度为平均值
+    //     }
+    // }
+
+
 
     int ku = 3; // u 向的阶数
     int kv = 3; // v 向的阶数
@@ -141,13 +253,22 @@ int main(int argc, char** argv)
     //     std::cout << u_v << std::endl;
     // }
 
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     // 创建 B-spline 曲面对象
     bspSurface surface(cnPoint, knots_u, knots_v);
 
     // 生成曲面点和法线，用于绘制
-    vector<Eigen::Vector3d> vertices, normals;
-    vector<unsigned short> edge_indices, face_indices;
-    surface.getbuffer_object(vertices, normals, edge_indices, face_indices);
+    vector<Eigen::Vector3d> vertices;
+    // vector<Eigen::Vector3d> vertices, normals;
+    // vector<unsigned short> edge_indices, face_indices;
+    surface.getFittingSurface(vertices, 0.05); // 0.05为step
+
+    auto end = std::chrono::high_resolution_clock::now();
+    double duration = time_inc(end, start);
+    std::cout << "Bspline-fitting time: " << duration << " milliseconds" << std::endl;  
+
 
     // 提取控制点
     vector<Eigen::Vector3d> control_points;
@@ -158,6 +279,8 @@ int main(int argc, char** argv)
             control_points.push_back(point);
         }
     }
+
+
 
     // 可视化拟合点和控制点
     visualizePointCloud(vertices, control_points);

@@ -1502,6 +1502,33 @@ topic_tools_generate_messages_lisp/fast:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/topic_tools_generate_messages_lisp.dir/build.make ptc_demo/CMakeFiles/topic_tools_generate_messages_lisp.dir/build
 .PHONY : topic_tools_generate_messages_lisp/fast
 
+src/Bspline.o: src/Bspline.cpp.o
+
+.PHONY : src/Bspline.o
+
+# target to build an object file
+src/Bspline.cpp.o:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.o
+.PHONY : src/Bspline.cpp.o
+
+src/Bspline.i: src/Bspline.cpp.i
+
+.PHONY : src/Bspline.i
+
+# target to preprocess a source file
+src/Bspline.cpp.i:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.i
+.PHONY : src/Bspline.cpp.i
+
+src/Bspline.s: src/Bspline.cpp.s
+
+.PHONY : src/Bspline.s
+
+# target to generate assembly for a file
+src/Bspline.cpp.s:
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.s
+.PHONY : src/Bspline.cpp.s
+
 src/appPMF.o: src/appPMF.cpp.o
 
 .PHONY : src/appPMF.o
@@ -1901,6 +1928,9 @@ help:
 	@echo "... nodelet_generate_messages_py"
 	@echo "... std_srvs_generate_messages_nodejs"
 	@echo "... topic_tools_generate_messages_lisp"
+	@echo "... src/Bspline.o"
+	@echo "... src/Bspline.i"
+	@echo "... src/Bspline.s"
 	@echo "... src/appPMF.o"
 	@echo "... src/appPMF.i"
 	@echo "... src/appPMF.s"

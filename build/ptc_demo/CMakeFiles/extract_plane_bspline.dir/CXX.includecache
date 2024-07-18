@@ -35,6 +35,10 @@ pcl/common/common.h
 -
 chrono
 -
+queue
+-
+limits
+-
 
 /usr/include/eigen3/Eigen/Cholesky
 Core
