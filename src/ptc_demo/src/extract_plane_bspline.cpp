@@ -163,8 +163,8 @@ int main(int argc, char** argv)
     }
 
     for (const auto& point : cloud->points) {
-        int x_ptc = static_cast<int>(point.x);
-        int y_ptc = static_cast<int>(point.y);
+        float x_ptc = static_cast<float>(point.x);
+        float y_ptc = static_cast<float>(point.y);
         cnPoint[(x_ptc - min_pt.x) / grid_width][(y_ptc - min_pt.y) / grid_height](2) = point.z;
     }
     
