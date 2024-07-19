@@ -140,10 +140,10 @@ int main(int argc, char** argv)
     float x_range = max_pt.x - min_pt.x;
     float y_range = max_pt.y - min_pt.y;
 
-    float low_peak = max_pt.z;
+    // float low_peak = max_pt.z;
     // float low_peak = getAverageHeight(cloud);
-    float grid_width = 15.0f;
-    float grid_height = 15.0f;
+    float grid_width = 10.0f;
+    float grid_height = 10.0f;
 
     int M = static_cast<int>(x_range / grid_width) + 1;
     int N = static_cast<int>(y_range / grid_height) + 1;    
@@ -151,6 +151,8 @@ int main(int argc, char** argv)
     vector<vector<Eigen::Vector3d>> cnPoint(M, vector<Eigen::Vector3d>(N));
 
     double maxDouble = std::numeric_limits<double>::max();
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     // create control points grid
     for (size_t i = 0; i < M; i++) {
@@ -214,8 +216,8 @@ int main(int argc, char** argv)
 
 
 
-    int ku = 4; // u 向的阶数
-    int kv = 4; // v 向的阶数
+    int ku = 3; // u 向的阶数
+    int kv = 3; // v 向的阶数
 
     // 设置均匀节点向量
     vector<float> knots_u(cnPoint.size() + ku);
@@ -246,8 +248,6 @@ int main(int argc, char** argv)
     // }
 
 
-    auto start = std::chrono::high_resolution_clock::now();
-
     // 创建 B-spline 曲面对象
     bspSurface surface(cnPoint, knots_u, knots_v);
 
@@ -261,6 +261,7 @@ int main(int argc, char** argv)
     double duration = time_inc(end, start);
     std::cout << "Bspline-fitting time: " << duration << " milliseconds" << std::endl;  
 
+    std::cout << "The height difference is: " << max_pt.z - min_pt.z << std::endl;
 
     // 提取控制点
     vector<Eigen::Vector3d> control_points;
@@ -271,8 +272,6 @@ int main(int argc, char** argv)
             control_points.push_back(point);
         }
     }
-
-
 
     // 可视化拟合点和控制点
     visualizePointCloud(vertices, control_points);

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/media/taole/ssd1/letaotao/PointCloud_processing/src/ptc_demo/src/ptc_seg.cpp
+/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/ptc_seg.cpp
 ros/ros.h
 -
 sensor_msgs/PointCloud2.h

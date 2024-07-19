@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/appPMF"
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/appPMF.pdb"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/appPMF"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/appPMF.pdb"
   "CMakeFiles/appPMF.dir/src/appPMF.cpp.o"
 )
 

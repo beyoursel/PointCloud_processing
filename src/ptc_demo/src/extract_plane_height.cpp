@@ -50,7 +50,7 @@ void PassthroghFilter(pcl::PointCloud<pcl::PointXYZ>::Ptr input_cloud , pcl::Poi
     pcl::PassThrough<pcl::PointXYZ> pass;
     pass.setInputCloud (input_cloud);
     pass.setFilterFieldName ("z");
-    pass.setFilterLimits (-2, 5);
+    pass.setFilterLimits (-5, 30);
     //pass.setNegative (true);
     pass.filter (*cloud_filtered);
     // ROS_INFO("the number of passthrough ptc is %ld", cloud_filtered->size()); 
@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 
     std::string fileName = getFileNameWithoutExtension(argv[1]);
 
-    std::string output_folder = "/media/taole/ssd1/letaotao/PointCloud_processing/seg_result/simple_extract";
+    std::string output_folder = "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/seg_result/simple_extract";
     if (!boost::filesystem::exists(output_folder)) {
         if (!boost::filesystem::create_directories(output_folder)) {
             std::cout << "Failed to create output folder" << std::endl;
@@ -109,11 +109,11 @@ int main(int argc, char** argv) {
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-    PassthroghFilter(cloud, filtered_cloud);
+    // PassthroghFilter(cloud, filtered_cloud);
 
     pcl::VoxelGrid<pcl::PointXYZ> sor;
 
-    sor.setInputCloud(filtered_cloud);
+    sor.setInputCloud(cloud);
     sor.setLeafSize(0.5f, 0.5f, 0.5f);  // voxel_size 
     sor.filter(*filtered_cloud);
 
@@ -146,11 +146,11 @@ int main(int argc, char** argv) {
     float x_range = max_pt.x - min_pt.x;
     float y_range = max_pt.y - min_pt.y;
     // grid_size
-    float grid_width = 15.0f;
-    float grid_height = 15.0f;
+    float grid_width = 10.0f;
+    float grid_height = 10.0f;
 
-    int M = static_cast<int>(x_range / grid_width) + 1;
-    int N = static_cast<int>(y_range / grid_height) + 1;
+    int M = static_cast<int>(x_range / grid_width) + 2;
+    int N = static_cast<int>(y_range / grid_height) + 2;
 
     std::vector<std::vector<Grid>> grids(M, std::vector<Grid>(N));
 
@@ -227,8 +227,11 @@ int main(int argc, char** argv) {
 
     std::string ground_pcd_file_save = output_folder + "/" + fileName + "_ground.pcd";
     // std::string non_ground_pcd_file_save = output_folder + "/" + fileName + "_non_ground.pcd";
+    std::string downsample_pcd_file_save = output_folder + "/" + fileName + "_downsample.pcd";
 
     pcl::io::savePCDFile(ground_pcd_file_save, *ground_cloud);
+    pcl::io::savePCDFile(downsample_pcd_file_save, *filtered_cloud);
+
     // pcl::io::savePCDFile(non_ground_pcd_file_save, *non_ground_cloud);
 
     std::cout << "Ground points saved to " << ground_pcd_file_save << std::endl;

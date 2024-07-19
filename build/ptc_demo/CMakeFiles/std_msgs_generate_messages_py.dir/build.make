@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/taole/ssd1/letaotao/PointCloud_processing/src
+CMAKE_SOURCE_DIR = /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/taole/ssd1/letaotao/PointCloud_processing/build
+CMAKE_BINARY_DIR = /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build
 
 # Utility rule file for std_msgs_generate_messages_py.
 
@@ -63,10 +63,10 @@ ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/build: std_msgs_generate_m
 .PHONY : ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/build
 
 ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/clean:
-	cd /media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_py.dir/cmake_clean.cmake
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 
 ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/depend:
-	cd /media/taole/ssd1/letaotao/PointCloud_processing/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/taole/ssd1/letaotao/PointCloud_processing/src /media/taole/ssd1/letaotao/PointCloud_processing/src/ptc_demo /media/taole/ssd1/letaotao/PointCloud_processing/build /media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo /media/taole/ssd1/letaotao/PointCloud_processing/build/ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ptc_demo/CMakeFiles/std_msgs_generate_messages_py.dir/depend
 

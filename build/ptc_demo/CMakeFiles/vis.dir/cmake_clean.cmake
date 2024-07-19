@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/vis"
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/vis.pdb"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/vis"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/vis.pdb"
   "CMakeFiles/vis.dir/src/vis.cpp.o"
 )
 

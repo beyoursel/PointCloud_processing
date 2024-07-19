@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/bare_earth"
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/bare_earth.pdb"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/bare_earth"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/bare_earth.pdb"
   "CMakeFiles/bare_earth.dir/src/bare_earth.cpp.o"
 )
 

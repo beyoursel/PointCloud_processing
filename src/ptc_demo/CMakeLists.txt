@@ -167,6 +167,7 @@ add_executable(appPMF src/appPMF.cpp)
 add_executable(bin_to_pcd src/bin_to_pcd.cpp)
 add_executable(extract_plane_height src/extract_plane_height.cpp)
 add_executable(extract_plane_bspline src/extract_plane_bspline.cpp src/Bspline.cpp)
+add_executable(bsline_surface_genearte src/bsline_surface_genearte.cpp src/Bspline.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -229,6 +230,11 @@ target_link_libraries(extract_plane_height
 )
 
 target_link_libraries(extract_plane_bspline
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}  
+)
+
+target_link_libraries(bsline_surface_genearte
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}  
 )

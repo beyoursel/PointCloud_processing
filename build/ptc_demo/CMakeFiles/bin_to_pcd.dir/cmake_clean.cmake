@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/bin_to_pcd"
-  "/media/taole/ssd1/letaotao/PointCloud_processing/devel/lib/ptc_demo/bin_to_pcd.pdb"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/bin_to_pcd"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/ptc_demo/bin_to_pcd.pdb"
   "CMakeFiles/bin_to_pcd.dir/src/bin_to_pcd.cpp.o"
 )
 
