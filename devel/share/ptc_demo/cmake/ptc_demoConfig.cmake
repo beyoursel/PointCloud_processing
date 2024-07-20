@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(ptc_demo_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT " " STREQUAL " ")
+if(NOT "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/include " STREQUAL " ")
   set(ptc_demo_INCLUDE_DIRS "")
-  set(_include_dirs "")
+  set(_include_dirs "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -116,7 +116,7 @@ if(NOT " " STREQUAL " ")
   endforeach()
 endif()
 
-set(libraries "")
+set(libraries "ptc_demo")
 foreach(library ${libraries})
   # keep build configuration keywords, target names and absolute libraries as-is
   if("${library}" MATCHES "^(debug|optimized|general)$")

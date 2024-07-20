@@ -4,12 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/extract_plane_height.cpp" "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o"
+  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/Bspline.cpp" "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/Bsplineptc.dir/src/Bspline.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
+  "Bsplineptc_EXPORTS"
   "DISABLE_LIBUSB_1_0"
   "DISABLE_PCAP"
   "DISABLE_PNG"
@@ -23,11 +24,11 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/include/vtk-7.1"
+  "/usr/include/freetype2"
   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
-  "/usr/include/vtk-7.1"
-  "/usr/include/freetype2"
   "/usr/include/eigen3"
   "/usr/include/pcl-1.10"
   "/usr/include/ni"

@@ -4,7 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/Bspline.cpp" "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/bsline_surface_genearte.dir/src/Bspline.cpp.o"
   "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/src/ptc_demo/src/bsline_surface_genearte.cpp" "/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build/ptc_demo/CMakeFiles/bsline_surface_genearte.dir/src/bsline_surface_genearte.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

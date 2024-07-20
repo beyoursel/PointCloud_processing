@@ -120,8 +120,8 @@ find_package(PCL 1.10 REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ptc_demo
+ INCLUDE_DIRS include
+ LIBRARIES ptc_demo
  CATKIN_DEPENDS pcl_msgs pcl_ros roscpp rospy std_msgs pcl_conversions
 #  DEPENDS system_lib
 )
@@ -143,10 +143,16 @@ include_directories(
 #   src/${PROJECT_NAME}/ptc_demo.cpp
 # )
 
+# add_library(Bsplineptc
+#   src/Bspline.cpp
+# )
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+link_directories(/media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib)
 
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -165,9 +171,7 @@ add_executable(euc_cluster src/cluster_extraction.cpp)
 add_executable(parallel_pmf src/parallel_pmf.cpp)
 add_executable(appPMF src/appPMF.cpp)
 add_executable(bin_to_pcd src/bin_to_pcd.cpp)
-add_executable(extract_plane_height src/extract_plane_height.cpp)
-add_executable(extract_plane_bspline src/extract_plane_bspline.cpp src/Bspline.cpp)
-add_executable(bsline_surface_genearte src/bsline_surface_genearte.cpp src/Bspline.cpp)
+add_executable(bsline_surface_genearte src/bsline_surface_genearte.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -224,17 +228,8 @@ target_link_libraries(bin_to_pcd
   ${PCL_LIBRARIES}  
 )
 
-target_link_libraries(extract_plane_height
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}  
-)
-
-target_link_libraries(extract_plane_bspline
-  ${catkin_LIBRARIES}
-  ${PCL_LIBRARIES}  
-)
-
 target_link_libraries(bsline_surface_genearte
+  Bsplineptc
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}  
 )

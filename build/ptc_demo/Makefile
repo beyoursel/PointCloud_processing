@@ -168,21 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-ptc_demo/CMakeFiles/extract_plane_height.dir/rule:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/extract_plane_height.dir/rule
-.PHONY : ptc_demo/CMakeFiles/extract_plane_height.dir/rule
-
-# Convenience name for target.
-extract_plane_height: ptc_demo/CMakeFiles/extract_plane_height.dir/rule
-
-.PHONY : extract_plane_height
-
-# fast build rule for target.
-extract_plane_height/fast:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/build
-.PHONY : extract_plane_height/fast
-
-# Convenience name for target.
 ptc_demo/CMakeFiles/parallel_pmf.dir/rule:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/parallel_pmf.dir/rule
 .PHONY : ptc_demo/CMakeFiles/parallel_pmf.dir/rule
@@ -706,21 +691,6 @@ pcl_msgs_generate_messages_py: ptc_demo/CMakeFiles/pcl_msgs_generate_messages_py
 pcl_msgs_generate_messages_py/fast:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/pcl_msgs_generate_messages_py.dir/build.make ptc_demo/CMakeFiles/pcl_msgs_generate_messages_py.dir/build
 .PHONY : pcl_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f CMakeFiles/Makefile2 ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
-.PHONY : ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
-
-# Convenience name for target.
-extract_plane_bspline: ptc_demo/CMakeFiles/extract_plane_bspline.dir/rule
-
-.PHONY : extract_plane_bspline
-
-# fast build rule for target.
-extract_plane_bspline/fast:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/build
-.PHONY : extract_plane_bspline/fast
 
 # Convenience name for target.
 ptc_demo/CMakeFiles/pcl_msgs_generate_messages_lisp.dir/rule:
@@ -1517,36 +1487,6 @@ topic_tools_generate_messages_lisp/fast:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/topic_tools_generate_messages_lisp.dir/build.make ptc_demo/CMakeFiles/topic_tools_generate_messages_lisp.dir/build
 .PHONY : topic_tools_generate_messages_lisp/fast
 
-src/Bspline.o: src/Bspline.cpp.o
-
-.PHONY : src/Bspline.o
-
-# target to build an object file
-src/Bspline.cpp.o:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.o
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bsline_surface_genearte.dir/build.make ptc_demo/CMakeFiles/bsline_surface_genearte.dir/src/Bspline.cpp.o
-.PHONY : src/Bspline.cpp.o
-
-src/Bspline.i: src/Bspline.cpp.i
-
-.PHONY : src/Bspline.i
-
-# target to preprocess a source file
-src/Bspline.cpp.i:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.i
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bsline_surface_genearte.dir/build.make ptc_demo/CMakeFiles/bsline_surface_genearte.dir/src/Bspline.cpp.i
-.PHONY : src/Bspline.cpp.i
-
-src/Bspline.s: src/Bspline.cpp.s
-
-.PHONY : src/Bspline.s
-
-# target to generate assembly for a file
-src/Bspline.cpp.s:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/Bspline.cpp.s
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/bsline_surface_genearte.dir/build.make ptc_demo/CMakeFiles/bsline_surface_genearte.dir/src/Bspline.cpp.s
-.PHONY : src/Bspline.cpp.s
-
 src/appPMF.o: src/appPMF.cpp.o
 
 .PHONY : src/appPMF.o
@@ -1681,60 +1621,6 @@ src/cluster_extraction.s: src/cluster_extraction.cpp.s
 src/cluster_extraction.cpp.s:
 	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/euc_cluster.dir/build.make ptc_demo/CMakeFiles/euc_cluster.dir/src/cluster_extraction.cpp.s
 .PHONY : src/cluster_extraction.cpp.s
-
-src/extract_plane_bspline.o: src/extract_plane_bspline.cpp.o
-
-.PHONY : src/extract_plane_bspline.o
-
-# target to build an object file
-src/extract_plane_bspline.cpp.o:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.o
-.PHONY : src/extract_plane_bspline.cpp.o
-
-src/extract_plane_bspline.i: src/extract_plane_bspline.cpp.i
-
-.PHONY : src/extract_plane_bspline.i
-
-# target to preprocess a source file
-src/extract_plane_bspline.cpp.i:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.i
-.PHONY : src/extract_plane_bspline.cpp.i
-
-src/extract_plane_bspline.s: src/extract_plane_bspline.cpp.s
-
-.PHONY : src/extract_plane_bspline.s
-
-# target to generate assembly for a file
-src/extract_plane_bspline.cpp.s:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_bspline.dir/build.make ptc_demo/CMakeFiles/extract_plane_bspline.dir/src/extract_plane_bspline.cpp.s
-.PHONY : src/extract_plane_bspline.cpp.s
-
-src/extract_plane_height.o: src/extract_plane_height.cpp.o
-
-.PHONY : src/extract_plane_height.o
-
-# target to build an object file
-src/extract_plane_height.cpp.o:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.o
-.PHONY : src/extract_plane_height.cpp.o
-
-src/extract_plane_height.i: src/extract_plane_height.cpp.i
-
-.PHONY : src/extract_plane_height.i
-
-# target to preprocess a source file
-src/extract_plane_height.cpp.i:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.i
-.PHONY : src/extract_plane_height.cpp.i
-
-src/extract_plane_height.s: src/extract_plane_height.cpp.s
-
-.PHONY : src/extract_plane_height.s
-
-# target to generate assembly for a file
-src/extract_plane_height.cpp.s:
-	cd /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/build && $(MAKE) -f ptc_demo/CMakeFiles/extract_plane_height.dir/build.make ptc_demo/CMakeFiles/extract_plane_height.dir/src/extract_plane_height.cpp.s
-.PHONY : src/extract_plane_height.cpp.s
 
 src/parallel_pmf.o: src/parallel_pmf.cpp.o
 
@@ -1881,7 +1767,6 @@ help:
 	@echo "... install/local"
 	@echo "... install"
 	@echo "... rebuild_cache"
-	@echo "... extract_plane_height"
 	@echo "... parallel_pmf"
 	@echo "... region_gs"
 	@echo "... bare_earth"
@@ -1919,7 +1804,6 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
 	@echo "... pcl_msgs_generate_messages_py"
-	@echo "... extract_plane_bspline"
 	@echo "... pcl_msgs_generate_messages_lisp"
 	@echo "... pcl_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_py"
@@ -1974,9 +1858,6 @@ help:
 	@echo "... nodelet_generate_messages_py"
 	@echo "... std_srvs_generate_messages_nodejs"
 	@echo "... topic_tools_generate_messages_lisp"
-	@echo "... src/Bspline.o"
-	@echo "... src/Bspline.i"
-	@echo "... src/Bspline.s"
 	@echo "... src/appPMF.o"
 	@echo "... src/appPMF.i"
 	@echo "... src/appPMF.s"
@@ -1992,12 +1873,6 @@ help:
 	@echo "... src/cluster_extraction.o"
 	@echo "... src/cluster_extraction.i"
 	@echo "... src/cluster_extraction.s"
-	@echo "... src/extract_plane_bspline.o"
-	@echo "... src/extract_plane_bspline.i"
-	@echo "... src/extract_plane_bspline.s"
-	@echo "... src/extract_plane_height.o"
-	@echo "... src/extract_plane_height.i"
-	@echo "... src/extract_plane_height.s"
 	@echo "... src/parallel_pmf.o"
 	@echo "... src/parallel_pmf.i"
 	@echo "... src/parallel_pmf.s"

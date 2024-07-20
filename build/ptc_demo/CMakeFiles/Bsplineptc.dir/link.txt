@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -O3 -DNDEBUG   -shared -Wl,-soname,libBsplineptc.so -o /media/taole/HHD/Doc/daily_work/work_tg/ros_ws/devel/lib/libBsplineptc.so CMakeFiles/Bsplineptc.dir/src/Bspline.cpp.o 
